@@ -1,8 +1,9 @@
-package com.venkat.repository;
+package com.venkat.service;
 
 import com.venkat.config.JwtService;
 import com.venkat.model.Role;
 import com.venkat.model.User;
+import com.venkat.repository.UserRepository;
 import com.venkat.vo.AuthRequest;
 import com.venkat.vo.AuthResponse;
 import com.venkat.vo.UserRequest;
