@@ -19,14 +19,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
-
     @Value("${jwtSecret}")
     private String secreteKey;
 
     @Value("${expirationInMs}")
     private int expirationInMs;  //1000(milli seconds) * 60(seconds) * 60(minutes) * 10(hours) = 36000000
-
-    private String authoritiesKey = "scopes";
 
     public String  extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

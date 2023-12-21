@@ -9,7 +9,6 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
 public class ClientConfig {
-
     @Bean
     PostClient postClient(){
         WebClient client = WebClient.builder()
