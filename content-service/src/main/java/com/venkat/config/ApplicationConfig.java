@@ -29,8 +29,6 @@ unauthorized(false)
  */
 @Configuration
 public class ApplicationConfig {
-    @Autowired
-    private UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService(){ //authorization
