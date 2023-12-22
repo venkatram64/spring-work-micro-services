@@ -7,14 +7,20 @@ import com.venkat.repository.UserRepository;
 import com.venkat.vo.AuthRequest;
 import com.venkat.vo.AuthResponse;
 import com.venkat.vo.UserRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class AuthenticationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -39,7 +45,13 @@ public class AuthenticationService {
 
     public AuthResponse authenticate(AuthRequest request){//login user
 
-        manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+        try {
+            //this will authenticate, internally it calls the authentication provider
+            manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+        }catch(AuthenticationException exception){
+            logger.info("Authentication failed {}", exception);
+            return null;
+        }
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
