@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
+        final String jwtToken;
         final String userEmail;
 
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
@@ -38,19 +38,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
+        jwtToken = authHeader.substring(7);
+        userEmail = jwtService.extractUsername(jwtToken);
 
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if(jwtService.validateToken(jwt, userDetails)){
+            if(jwtService.validateToken(jwtToken, userDetails)){
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);//token to held for logged in user
+                SecurityContextHolder.getContext().setAuthentication(authToken);//put token in SecurityContextHolder for logged in user
             }
         }
-
-        filterChain.doFilter(request, response);//this is for next filter if any
+        //this is for next filter if any or else this request goes to
+        //Dispatcher servlet to Controller end point to process and gives the
+        //response
+        filterChain.doFilter(request, response);
     }
 }

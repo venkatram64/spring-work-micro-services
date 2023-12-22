@@ -25,11 +25,11 @@ public class AuthenticationService {
     @Autowired
     private JwtService jwtService;
 
-    @Autowired
+    @Autowired  //from ApplicationConfig.java
     private AuthenticationManager manager;
 
-    public AuthResponse register(UserRequest request){//create user
-
+    public AuthResponse register(UserRequest request){
+        //create user, will save the user and returns the jwtToken
         var user = new User(request.firstName(),request.lastName(),
                     request.email(),passwordEncoder.encode(request.password()), Role.USER);
         userRepository.save(user);
