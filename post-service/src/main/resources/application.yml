@@ -12,3 +12,8 @@ management:
     sampling:
       probability: 1.0
 
+spring:
+  output:
+    ansi:
+      enabled: always
+

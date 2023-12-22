@@ -26,6 +26,9 @@ spring:
         format_sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
+  output:
+    ansi:
+      enabled: always
 
 jwtSecret: b6c3e9153b2ae05e5b20444bbf014ab0dba5cfac666117d767dbd284b825ed85
 expirationInMs: 36000000
