@@ -1,6 +1,7 @@
 package com.venkat.config;
 
 import com.venkat.repository.UserRepository;
+import com.venkat.service.CustomAuthenticationProvider;
 import com.venkat.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/*
+custom authentication which will authenticate requests based on a key present in the header
+of the request valid application key is stored in app configurations.
+
+1. Security Config wire up the authentication filter in the spring context
+2. Authentication Filter intercept the request , create authentication object and
+pass it to authentication manager
+3. Authentication provider perform evaluation to decide whether to mark the request
+authorized or unauthorized
+4. Authentication Object contains authentication status authorizated(true)
+unauthorized(false)
+ */
 @Configuration
 public class ApplicationConfig {
     @Autowired
@@ -28,10 +41,9 @@ public class ApplicationConfig {
     //method works with respect to the spring security
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+        CustomAuthenticationProvider authenticationProvider =
+                new CustomAuthenticationProvider(userDetailsService(), passwordEncoder());
+        return authenticationProvider;
     }
 
     @Bean
