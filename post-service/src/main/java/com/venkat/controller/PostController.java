@@ -18,7 +18,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<Post> findAll(){
         return postService.findAll();
     }
@@ -34,13 +34,13 @@ public class PostController {
         postService.add(post);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody Post post, @PathVariable Integer id){
         postService.update(post, id);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id){
         postService.remove(id);
