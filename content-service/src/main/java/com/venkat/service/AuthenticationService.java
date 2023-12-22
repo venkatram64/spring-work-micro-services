@@ -1,6 +1,7 @@
 package com.venkat.service;
 
 import com.venkat.config.JwtService;
+import com.venkat.model.CustomUserDetail;
 import com.venkat.model.Role;
 import com.venkat.model.User;
 import com.venkat.repository.UserRepository;
@@ -32,8 +33,9 @@ public class AuthenticationService {
         //create user, will save the user and returns the jwtToken
         var user = new User(request.firstName(),request.lastName(),
                     request.email(),passwordEncoder.encode(request.password()), Role.USER);
-        userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        var dbUser = userRepository.save(user);
+        CustomUserDetail customUserDetail = new CustomUserDetail(dbUser);
+        var jwtToken = jwtService.generateToken(customUserDetail);
         return new AuthResponse(jwtToken);
     }
 
@@ -42,7 +44,8 @@ public class AuthenticationService {
         manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        CustomUserDetail customUserDetail = new CustomUserDetail(user);
+        var jwtToken = jwtService.generateToken(customUserDetail);
         return new AuthResponse(jwtToken);
     }
 

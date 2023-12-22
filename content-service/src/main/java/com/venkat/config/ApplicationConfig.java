@@ -1,6 +1,7 @@
 package com.venkat.config;
 
 import com.venkat.repository.UserRepository;
+import com.venkat.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,20 +21,11 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){ //authorization
-        UserDetailsService userDetailsService = username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found in database for given email"));
-        return userDetailsService;
-
-       /* return new UserDetailsService() { //anonymous class
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userRepository.findByEmail(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found in database for given email"));;
-            }
-        };*/
-
+        return new CustomUserDetailService();
     }
 
+    //below method is mapped with the UserDetailsService, then only UserDetailsService()
+    //method works with respect to the spring security
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -47,6 +39,7 @@ public class ApplicationConfig {
         return new BCryptPasswordEncoder();
     }
 
+    //below method is must, to work authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
