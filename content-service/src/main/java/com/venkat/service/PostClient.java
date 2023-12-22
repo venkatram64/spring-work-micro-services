@@ -25,6 +25,6 @@ public interface PostClient {
     @PutExchange("/posts/{id}")
     void update(@RequestBody Post posts, @PathVariable Integer id);
 
-    @DeleteExchange("posts/{id}")
+    @DeleteExchange("/posts/{id}")
     void delete(@PathVariable Integer id);
 }
