@@ -33,10 +33,10 @@ public class ContentController {
         this.postClient.create(post);
     }
 
-    @PutMapping("/posts/{id}")
+    @PutMapping("/posts")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Post post, @PathVariable Integer id){
-        this.postClient.update(post, id);
+    public void update(@RequestBody Post post){
+        this.postClient.update(post);
     }
 
     @DeleteMapping("/posts/{id}")

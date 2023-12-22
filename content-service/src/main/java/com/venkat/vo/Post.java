@@ -1,4 +1,4 @@
 package com.venkat.vo;
 
-public record Post(Integer id, String title, String body) {
+public record Post(Integer id, Integer userId, String title, String body) {
 }

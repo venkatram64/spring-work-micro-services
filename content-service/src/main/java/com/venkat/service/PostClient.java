@@ -22,9 +22,9 @@ public interface PostClient {
     @PostExchange("/posts")
     void create(@RequestBody Post posts);
 
-    @PutExchange("/posts/{id}")
-    void update(@RequestBody Post posts, @PathVariable Integer id);
+    @PutExchange("/posts")
+    void update(@RequestBody Post posts);
 
-    @DeleteExchange("posts/{id}")
+    @DeleteExchange("/posts/{id}")
     void delete(@PathVariable Integer id);
 }
