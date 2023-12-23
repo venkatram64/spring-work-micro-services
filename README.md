@@ -1,10 +1,11 @@
-Note: Eureka server and zipkin is added in this
+Note: api gateway is added in this
 
 order of starting services:
 1. service-registry-in-eureka
 2. post-service
 3. content-service
-4. to see the logs start the docker-compose.yml this is for to see the logs
+4. post-api-gateway-service
+5to see the logs start the docker-compose.yml this is for to see the logs
 
 to see the services in eureka goto --> http://localhost:8761/
 
@@ -39,18 +40,12 @@ FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 -------------------------------
-
-
-
-step 1: start the two micro services
-1. post-service
-2. content-service
-
-step 2:
+Now we are accessing with the api gateway port/gateway server name
+step 1:
 
 to create the user
 POST:
-http://localhost:8080/api/auth/register
+http://localhost:8060/api/auth/register
 
 {
 "firstName": "Srijan",
@@ -62,9 +57,9 @@ http://localhost:8080/api/auth/register
 returns the token
 
 
-step 3: to login or authenticate
+step 2: to login or authenticate
 POST:
-http://localhost:8080/api/auth/authenticate
+http://localhost:8060/api/auth/authenticate
 
 {
 "email":"srijan.veerareddy@gmail.com",
@@ -73,7 +68,7 @@ http://localhost:8080/api/auth/authenticate
 
 return the token
 
-step 4:
+step 3:
 
 take the token add it as bearer token in "Authorization" tab in
 postman
@@ -81,7 +76,7 @@ postman
 eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlqYW4udmVlcmFyZWRkeUBnbWFpbC5jb20iLCJpYXQiOjE3MDMyMzYzNjIsImV4cCI6MTcwMzI3MjM2Mn0.tXh2wU_gWx04oI0Wjqc-648TOyTk5kEQ-1o5zEVClhs
 take the user id form Users table
 POST
-http://localhost:8080/api/content/posts
+http://localhost:8060/api/content/posts
 {
 "userId":12,
 "title": "Core Java ariticle",
@@ -91,7 +86,7 @@ http://localhost:8080/api/content/posts
 step 4: update
 
 PUT
-http://localhost:8080/api/content/posts
+http://localhost:8060/api/content/posts
 {
 "userId":12,
 "title": "Core Java article",
@@ -101,10 +96,10 @@ http://localhost:8080/api/content/posts
 step 5: delete
 DELETE
 
-http://localhost:8080/api/content/posts/4
+http://localhost:8060/api/content/posts/4
 
 step 6: 
 
 GET
-localhost:8080/api/content/posts/1
+localhost:8060/api/content/posts/1
 

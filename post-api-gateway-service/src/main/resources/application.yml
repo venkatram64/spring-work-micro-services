@@ -25,9 +25,9 @@ spring:
     gateway:
       routes:
         - id: post-service
-          uri: lb://post-service/api
+          uri: lb://post-service
           predicates:
-            - Path=/posts/**
+            - Path=/api/posts/**
         - id: content-service
           uri: lb://content-service
           predicates:
