@@ -8,7 +8,7 @@ import org.springframework.web.service.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@HttpExchange
+//@HttpExchange
 public interface PostClient {
 
     @GetExchange("/posts")

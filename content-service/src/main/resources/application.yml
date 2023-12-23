@@ -1,5 +1,6 @@
 server:
   port: 8080
+
 management:
   endpoints:
     web:
@@ -11,6 +12,7 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
 spring:
   application:
     name: content-service
@@ -36,6 +38,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+
 
 jwtSecret: b6c3e9153b2ae05e5b20444bbf014ab0dba5cfac666117d767dbd284b825ed85
 expirationInMs: 36000000
