@@ -12,6 +12,7 @@
         <module>post-service</module>
         <module>content-service</module>
         <module>service-registry-in-eureka</module>
+        <module>post-api-gateway-service</module>
     </modules>
 
     <properties>
