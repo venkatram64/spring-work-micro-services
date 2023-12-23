@@ -1,3 +1,15 @@
+Note: Eureka server and zipkin is added in this
+
+order of starting services:
+1. service-registry-in-eureka
+2. post-service
+3. content-service
+4. to see the logs start the docker-compose.yml this is for to see the logs
+
+to see the services in eureka goto --> http://localhost:8761/
+
+to see the logs in zipkin goto --> http://localhost:9411/
+
 Steps create following two tables
 
 step 1: create database schema as "db_posts" in mysql workbench or

@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
     @Value("${jwtSecret}")
     private String secreteKey;
 
@@ -57,6 +61,7 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
+        logger.info("Generating the token");
         Map<String, Object> claims = new HashMap<>(); //empty claims
         String authorities = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -84,6 +89,7 @@ public class JwtService {
                 .compact();
     }
     public Boolean validateToken(String token, UserDetails userDetails) {
+        logger.info("Validating  the token");
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

@@ -13,6 +13,8 @@ management:
       probability: 1.0
 
 spring:
+  application:
+    name: post-service
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_posts
     username: root
@@ -30,4 +32,9 @@ spring:
   output:
     ansi:
       enabled: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 

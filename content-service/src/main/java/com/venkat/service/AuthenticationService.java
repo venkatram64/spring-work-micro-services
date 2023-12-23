@@ -35,6 +35,7 @@ public class AuthenticationService {
     private AuthenticationManager manager;
 
     public AuthResponse register(UserRequest request){
+        logger.info("Saving the user record");
         //create user, will save the user and returns the jwtToken
         var user = new User(request.firstName(),request.lastName(),
                     request.email(),passwordEncoder.encode(request.password()), Role.USER);
@@ -45,6 +46,7 @@ public class AuthenticationService {
     }
 
     public AuthResponse authenticate(AuthRequest request){//login user
+        logger.info("authenticate the user");
         try {
             //this will authenticate, internally it calls the authentication provider
             manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));

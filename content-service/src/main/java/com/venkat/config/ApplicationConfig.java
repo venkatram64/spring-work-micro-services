@@ -3,6 +3,8 @@ package com.venkat.config;
 import com.venkat.repository.UserRepository;
 import com.venkat.service.CustomAuthenticationProvider;
 import com.venkat.service.CustomUserDetailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +32,11 @@ unauthorized(false)
 @Configuration
 public class ApplicationConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
+
     @Bean
     public UserDetailsService userDetailsService(){ //authorization
+        logger.info("Creating UserDetailService");
         return new CustomUserDetailService();
     }
 
@@ -39,6 +44,7 @@ public class ApplicationConfig {
     //method works with respect to the spring security
     @Bean
     public AuthenticationProvider authenticationProvider(){
+        logger.info("Creating CustomAuthenticationProvider");
         CustomAuthenticationProvider authenticationProvider =
                 new CustomAuthenticationProvider(userDetailsService(), passwordEncoder());
         return authenticationProvider;
@@ -46,12 +52,14 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        logger.info("Creating PasswordEncoder");
         return new BCryptPasswordEncoder();
     }
 
     //below method is must, to work authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        logger.info("Creating AuthenticationManager");
         return config.getAuthenticationManager();
     }
 }

@@ -11,6 +11,7 @@
     <modules>
         <module>post-service</module>
         <module>content-service</module>
+        <module>service-registry-in-eureka</module>
     </modules>
 
     <properties>

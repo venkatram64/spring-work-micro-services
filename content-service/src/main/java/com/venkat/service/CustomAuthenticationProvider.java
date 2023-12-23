@@ -1,5 +1,7 @@
 package com.venkat.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
+
     private UserDetailsService userDetailService;
     private PasswordEncoder passwordEncoder;
 
@@ -21,6 +25,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        logger.info("Authenticating the user ");
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailService.loadUserByUsername(email);
