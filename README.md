@@ -5,7 +5,7 @@ order of starting services:
 2. post-service
 3. content-service
 4. post-api-gateway-service
-5to see the logs start the docker-compose.yml this is for to see the logs
+5. to see the logs start the docker-compose.yml this is for to see the logs
 
 to see the services in eureka goto --> http://localhost:8761/
 
