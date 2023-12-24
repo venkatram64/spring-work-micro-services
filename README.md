@@ -1,11 +1,12 @@
-Note: api gateway is added in this
+Note: config server is added in this
 
 order of starting services:
-1. service-registry-in-eureka
-2. post-service
-3. content-service
-4. post-api-gateway-service
-5. to see the logs start the docker-compose.yml this is for to see the logs
+1. post-config-server
+2. service-registry-in-eureka
+3. post-service
+4. content-service
+5. post-api-gateway-service
+6. to see the logs start the docker-compose.yml this is for to see the logs
 
 to see the services in eureka goto --> http://localhost:8761/
 
