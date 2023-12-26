@@ -16,6 +16,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /*
 custom authentication which will authenticate requests based on a key present in the header
@@ -62,4 +65,19 @@ public class ApplicationConfig {
         logger.info("Creating AuthenticationManager");
         return config.getAuthenticationManager();
     }
+
+ /*   //this is for cors, to allow different origins to access
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry
+                        .addMapping("/**")
+                        .allowedMethods(CorsConfiguration.ALL)
+                        .allowedOriginPatterns(CorsConfiguration.ALL)
+                        .allowedHeaders(CorsConfiguration.ALL);
+            }
+        };
+    }*/
 }
