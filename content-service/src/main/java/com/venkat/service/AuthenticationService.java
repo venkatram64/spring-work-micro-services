@@ -8,6 +8,7 @@ import com.venkat.repository.UserRepository;
 import com.venkat.vo.AuthRequest;
 import com.venkat.vo.AuthResponse;
 import com.venkat.vo.UserRequest;
+import com.venkat.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,24 +43,24 @@ public class AuthenticationService {
         var dbUser = userRepository.save(user);
         CustomUserDetail customUserDetail = new CustomUserDetail(dbUser);
         var jwtToken = jwtService.generateToken(customUserDetail);
-        return new AuthResponse(jwtToken);
+        return new AuthResponse(jwtToken, new UserVO(user.getId(),user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().name()));
     }
 
-    public AuthResponse authenticate(AuthRequest request){//login user
+    public AuthResponse authenticate(AuthRequest request) {//login user
         logger.info("authenticate the user");
         try {
             //this will authenticate, internally it calls the authentication provider
             manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         }catch(AuthenticationException exception){
             logger.info("Authentication failed {}", exception);
-            return null;
+            throw new RuntimeException("Username or password is incorrect");
         }
 
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow();
         CustomUserDetail customUserDetail = new CustomUserDetail(user);
         var jwtToken = jwtService.generateToken(customUserDetail);
-        return new AuthResponse(jwtToken);
+        return new AuthResponse(jwtToken, new UserVO(user.getId(),user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().name()));
     }
 
     public boolean getUser(String email){

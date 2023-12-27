@@ -43,6 +43,11 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest authRequest){
         logger.info("Authenticating the user ");
-        return ResponseEntity.ok(authService.authenticate(authRequest));
+        try {
+            AuthResponse authResponse = authService.authenticate(authRequest);
+            return ResponseEntity.ok(authResponse);
+        }catch (RuntimeException exception){
+            throw new ContentAPIRequestException("Username or password is incorrect");
+        }
     }
 }
