@@ -62,4 +62,8 @@ public class AuthenticationService {
         return new AuthResponse(jwtToken);
     }
 
+    public boolean getUser(String email){
+        return userRepository.findByEmail(email).isPresent();
+    }
+
 }
