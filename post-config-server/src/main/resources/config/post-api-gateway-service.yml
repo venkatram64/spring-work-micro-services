@@ -35,7 +35,7 @@ spring:
         - id: content-service
           uri: lb://content-service
           predicates:
-            - Path=/api/auth/**, /api/content/**
+            - Path=/api/auth/**, /api/content/**, /api/users/**
   output:
     ansi:
       enabled: always
