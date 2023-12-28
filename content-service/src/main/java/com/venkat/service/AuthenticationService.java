@@ -67,4 +67,18 @@ public class AuthenticationService {
         return userRepository.findByEmail(email).isPresent();
     }
 
+    public AuthResponse forgotPassword(AuthRequest request) {//login user
+        logger.info("Forgot password user");
+
+        var user = userRepository.findByEmail(request.email())
+                .orElseThrow();
+        //set the new password
+        user.setPassword(passwordEncoder.encode(request.password()));
+        //uppate the user
+        User newUser = userRepository.save(user);
+        CustomUserDetail customUserDetail = new CustomUserDetail(newUser);
+        var jwtToken = jwtService.generateToken(customUserDetail);
+        return new AuthResponse(jwtToken, new UserVO(newUser.getId(),newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getRole().name()));
+    }
+
 }

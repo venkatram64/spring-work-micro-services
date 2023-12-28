@@ -8,10 +8,7 @@ import com.venkat.vo.UserRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,6 +45,20 @@ public class AuthenticationController {
             return ResponseEntity.ok(authResponse);
         }catch (RuntimeException exception){
             throw new ContentAPIRequestException("Username or password is incorrect");
+        }
+    }
+
+    @PutMapping("/forgot-password")
+    public ResponseEntity<AuthResponse> forgotPassword(@RequestBody AuthRequest authRequest){
+        logger.info("Authenticating the user ");
+        if(authRequest.email().isEmpty() || authRequest.password().isEmpty()){
+            throw new ContentAPIRequestException("All fields should have values");
+        }
+        try {
+            AuthResponse authResponse = authService.forgotPassword(authRequest);
+            return ResponseEntity.ok(authResponse);
+        }catch (RuntimeException exception){
+            throw new ContentAPIRequestException("Unable update the password");
         }
     }
 }
