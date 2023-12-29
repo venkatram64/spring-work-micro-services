@@ -10,6 +10,7 @@ import Nav from "./components/Nav";
 import { UserProvider } from "./context";
 import Dashboard from "./pages/user/Dashboard";
 import ForgotPassword from "./pages/user/ForgotPassword";
+import EditPost from "./pages/user/EditPost";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/user/dashboard" component={Dashboard} />
+          <Route exact path="/user/post/:postId" component={EditPost} />
           <Route exact path="/user/forgot-password" component={ForgotPassword} />
         </Switch>
       </BrowserRouter>

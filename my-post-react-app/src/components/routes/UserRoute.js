@@ -4,11 +4,13 @@ import { Redirect } from "react-router-dom";
 
 import { SyncOutlined } from "@ant-design/icons";
 import { UserContext } from "../../context";
+import { useHistory } from 'react-router-dom';
 
 const UserRoute = ({ children }) => {
 
   const [ok, setOk] = useState(false);
   const [state] = useContext(UserContext);
+  const history = useHistory();
 
   useEffect(() => {
     if(state && state.token){
@@ -39,6 +41,7 @@ const UserRoute = ({ children }) => {
       console.log("I am redirecting to login...");
       //<Redirect to="/login" />;
       //return <Redirect to={{pathname: "/login"}} />  
+      history.push("/login");
     }  
     return   
   };

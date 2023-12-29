@@ -1,10 +1,12 @@
 package com.venkat.controller;
 
+import com.venkat.exception.ContentAPIRequestException;
 import com.venkat.service.PostClient;
 import com.venkat.vo.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,29 +24,34 @@ public class ContentController {
     }
 
     @GetMapping("/posts")
-    public List<Post> getAll(){
+    public ResponseEntity<List<Post>> getAll(){
         logger.info("Fetching all the records");
-        return this.postClient.findAll();
+        return ResponseEntity.ok(this.postClient.findAll());
     }
 
     @GetMapping("/posts/{id}")
-    public Post getById(@PathVariable Integer id){
+    public ResponseEntity<Post> getById(@PathVariable Integer id){
         logger.info("Fetching the record for {} ", id);
-        return this.postClient.findById(id).get();
+        return ResponseEntity.ok(this.postClient.findById(id).get());
     }
 
     @PostMapping("/posts")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Post post){
-        logger.info("Creating the record for {} ", post);
-        this.postClient.create(post);
+    //@ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Post> create(@RequestBody Post post){
+        if(post.title().isEmpty() || post.body().isEmpty()){
+            throw new ContentAPIRequestException("All fields should have values");
+
+        }
+        Post newPost = this.postClient.create(post);
+        logger.info("Creating the record for {} ", newPost);
+        return ResponseEntity.ok(newPost);
     }
 
     @PutMapping("/posts")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Post post){
+    //@ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Post> update(@RequestBody Post post){
         logger.info("Updating the record for {} ", post);
-        this.postClient.update(post);
+        return ResponseEntity.ok(this.postClient.update(post));
     }
 
     @DeleteMapping("/posts/{id}")

@@ -75,6 +75,11 @@ npm i bootstrap
 
 npm i  react-router-dom@^5.2.0
 
+npm i react-quill
+
+npm i react-render-html --force
+npm i moment
+
 added extension for html to jsx
 added emment in settings 
 "emmet.includeLanguages": {

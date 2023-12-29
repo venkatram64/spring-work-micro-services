@@ -1,8 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context";
 import UserRoute from "../../components/routes/UserRoute";
-import CreatePostForm from "../../components/forms/CreatePostForm";
+import PostForm from "../../components/forms/PostForm";
+import { toast } from "react-toastify";
 import axios from "axios";
+import PostList from "../../components/posts/PostList";
 
 const Dashboard = () => {
   const [state, setState] = useContext(UserContext);
@@ -10,34 +12,59 @@ const Dashboard = () => {
   //state
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [state && state.token && state.token.trim() !== ""]);
+
+  const fetchPosts = async () => {
+    console.log("*****state is ", state);
+    try {
+      const { data } = await axios.get("/api/content/posts");
+      setPosts(data);
+      console.log("posts are ", data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const postSubmit = async (e) => {
     e.preventDefault();
     console.log("post is ", title, content);
     console.log("state is ", state);
     try {
-      const { data } = await axios.post("/api/content/posts", {
+      const data = await axios.post("/api/content/posts", {
         userId: state.user.id,
         title: title,
         body: content,
       });
-      console.log("post data is ", data);
+      if (data) {
+        console.log("post data is ", data);
+        toast.success("Post is created...");
+        setTitle("");
+        setContent("");
+        fetchPosts();
+      } else {
+        toast.error("post not created");
+      }
     } catch (err) {
       console.log(err);
+      toast.error(err.message);
     }
   };
 
   return (
     <UserRoute>
       <div className="container-fluid">
-        <div className="row py-5">
+        <div className="row py-2">
           <div className="col">
-            <h1 className="display-1 text-center">Posts</h1>
+            <h1 className="display-8 text-center">Posts</h1>
           </div>
         </div>
         <div className="row py-3">
           <div className="col-md-8">
-            <CreatePostForm
+            <PostForm
               title={title}
               setTitle={setTitle}
               content={content}
@@ -46,6 +73,10 @@ const Dashboard = () => {
             />
           </div>
           <div className="col-md-4">Sidebar</div>
+          {/* <pre>{JSON.stringify(posts, null, 4)}</pre> */}
+          <div className="row py-3">
+            <div className="col-md-8">{<PostList posts={posts} />}</div>
+          </div>
         </div>
       </div>
     </UserRoute>

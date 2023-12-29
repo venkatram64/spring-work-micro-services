@@ -41,16 +41,16 @@ public class PostService {
                 .map(post -> new PostVO(post.getId(),post.getUserId(), post.getTitle(), post.getBody()));
     }
 
-    public void addPost(PostVO post){
+    public Post addPost(PostVO post){
         logger.info("Saving the record {} ", post);
         Post p = new Post(post.userId(), post.title(), post.body());
-        this.postRepository.save(p);
+        return this.postRepository.save(p);
     }
 
-    public void update(PostVO post){
+    public Post update(PostVO post){
         logger.info("Update the record {} ", post);
         Post p = new Post(post.id(), post.userId(), post.title(), post.body());
-        this.postRepository.save(p);
+        return this.postRepository.save(p);
     }
 
     public void remove(Integer id){

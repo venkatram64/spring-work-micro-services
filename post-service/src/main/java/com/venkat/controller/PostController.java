@@ -1,10 +1,12 @@
 package com.venkat.controller;
 
+import com.venkat.model.Post;
 import com.venkat.service.PostService;
 import com.venkat.vo.PostVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,16 +38,20 @@ public class PostController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody PostVO post){
+    public ResponseEntity<PostVO> create(@RequestBody PostVO post){
         logger.info("Creating the record {} ", post);
-        postService.addPost(post);
+        Post newPost = postService.addPost(post);
+        PostVO postVO = new PostVO(newPost.getId(), newPost.getUserId(), newPost.getTitle(), newPost.getBody());
+        return ResponseEntity.ok(postVO);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody PostVO post){
+    public ResponseEntity<PostVO> update(@RequestBody PostVO post){
         logger.info("Updating the record {} ", post);
-        postService.update(post);
+        Post updatePost = postService.update(post);
+        PostVO updatedPostVO = new PostVO(updatePost.getId(), updatePost.getUserId(), updatePost.getTitle(),updatePost.getBody());
+        return ResponseEntity.ok(updatedPostVO);
     }
 
     @DeleteMapping("/{id}")

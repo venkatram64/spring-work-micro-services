@@ -16,7 +16,7 @@ public class ContentGlobalAdviceHandler {
     @ExceptionHandler(value = {ContentAPIRequestException.class})
     public ResponseEntity<Object> handleEmptyInput(ContentAPIRequestException exception){
         ContentAPIException apiException = new ContentAPIException(exception.getMessage(), exception, HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
-        return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
