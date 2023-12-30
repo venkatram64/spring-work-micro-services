@@ -44,7 +44,10 @@ const Login = () => {
       setLoading(false);
       setRedirectTo(true);
     } catch (err) {
-      toast.error(err.response.data.message);
+      console.log("Error is from login page ", err);
+      if (err.response.data.message) {
+        toast.error(err.response.data.message);
+      }
       setLoading(false);
     }
   };

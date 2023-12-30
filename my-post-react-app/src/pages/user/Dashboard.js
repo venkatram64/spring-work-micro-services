@@ -15,8 +15,8 @@ const Dashboard = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetchPosts();
-  }, [state && state.token && state.token.trim() !== ""]);
+    if (state && state.token && state.token.trim() !== "") fetchPosts();
+  }, [state && state.token]);
 
   const fetchPosts = async () => {
     console.log("*****state is ", state);
@@ -54,6 +54,18 @@ const Dashboard = () => {
     }
   };
 
+  const handleDelete = async (post) => {
+    try {
+      const answer = window.confirm("Are you sure to delete the post ?");
+      if (!answer) return true;
+      axios.delete(`/api/content/posts/${post.id}`);
+      toast.success("Post is deleted.");
+      fetchPosts();
+    } catch (err) {
+      console.log("Unable to delete the post, err");
+    }
+  };
+
   return (
     <UserRoute>
       <div className="container-fluid">
@@ -75,7 +87,7 @@ const Dashboard = () => {
           <div className="col-md-4">Sidebar</div>
           {/* <pre>{JSON.stringify(posts, null, 4)}</pre> */}
           <div className="row py-3">
-            <div className="col-md-8">{<PostList posts={posts} />}</div>
+            <div className="col-md-8">{<PostList posts={posts} handleDelete={handleDelete}/>}</div>
           </div>
         </div>
       </div>

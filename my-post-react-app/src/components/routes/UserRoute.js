@@ -4,22 +4,22 @@ import { Redirect } from "react-router-dom";
 
 import { SyncOutlined } from "@ant-design/icons";
 import { UserContext } from "../../context";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const UserRoute = ({ children }) => {
-
   const [ok, setOk] = useState(false);
   const [state] = useContext(UserContext);
   const history = useHistory();
 
   useEffect(() => {
-    if(state && state.token){
+    if (state && state.token && state.token.trim() !== "") {
       getCurrentUser();
-    }    
+    }
   }, [state && state.token]);
 
   const getCurrentUser = async () => {
-    try {      
+    //debugger;
+    try {
       // const user = await axios.get(
       //   `${process.env.REACT_APP_API_URL}/api/users`, {
       //     headers: {
@@ -29,26 +29,27 @@ const UserRoute = ({ children }) => {
       // );
 
       //in UserRoute.js axios is configured
-      const user = await axios.get('/api/users');
-      
+      const user = await axios.get("/api/users");
+
       if (user != null) {
         console.log("user is valid ", user.data);
         setOk(true);
+      } else {
+        console.log("I am redirecting to login...");
+        history.push("/login");
       }
-
     } catch (err) {
       setOk(false);
       console.log("I am redirecting to login...");
-      //<Redirect to="/login" />;
-      //return <Redirect to={{pathname: "/login"}} />  
       history.push("/login");
-    }  
-    return   
+    }
+    return;
   };
 
-  state == null && setTimeout(() =>{
-    getCurrentUser();     
-  }, 1000);
+  state == null &&
+    setTimeout(() => {
+      getCurrentUser();
+    }, 1000);
 
   return !ok ? (
     <SyncOutlined
@@ -56,25 +57,8 @@ const UserRoute = ({ children }) => {
       className="d-flux justify-content-center display-1 text-primary p-5"
     />
   ) : (
-    <>{ children }</>
+    <>{children}</>
   );
-
-  // if (!ok) {
-  //   return (
-  //     <SyncOutlined
-  //       spin
-  //       className="d-flux justify-content-center display-1 text-primary p-5"
-  //     />
-  //   );
-  // }
-
-  // // If the user is not authenticated, redirect to the login page
-  // if (state === null && !ok) {
-  //   return <Redirect to="/login" />;
-  // }
-
-  // return <>{children}</>;
-
 };
 
 export default UserRoute;
