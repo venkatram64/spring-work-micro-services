@@ -27,10 +27,11 @@ const Login = () => {
       // );
 
       //axios is configured in UserRoute.js
-      const { data } = await axios.post("/api/auth/authenticate", {
+      const  {data}  = await axios.post("/api/auth/authenticate", {
         email: email,
         password: password,
       });
+      //debugger;
       //update context
       setState({
         user: data.user,
@@ -44,10 +45,9 @@ const Login = () => {
       setLoading(false);
       setRedirectTo(true);
     } catch (err) {
-      console.log("Error is from login page ", err);
-      if (err.response.data.message) {
-        toast.error(err.response.data.message);
-      }
+      //debugger;
+      //console.log("Error is from login page ", err);
+      toast.error(err.response.data.errorMsg);
       setLoading(false);
     }
   };

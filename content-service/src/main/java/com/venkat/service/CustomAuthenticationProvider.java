@@ -1,5 +1,6 @@
 package com.venkat.service;
 
+import com.venkat.exception.ContentAPIRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -31,7 +32,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailService.loadUserByUsername(email);
         if(!passwordEncoder.matches(password, userDetails.getPassword())){
             //Authentication failed
-            throw new BadCredentialsException("Username or Password wrong");
+            //throw new BadCredentialsException("Username or Password wrong");
+            throw new ContentAPIRequestException("Username or password is incorrect");
         }
         //Authentication successful
         return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());

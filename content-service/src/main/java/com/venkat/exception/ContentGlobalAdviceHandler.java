@@ -2,6 +2,7 @@ package com.venkat.exception;
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,8 @@ public class ContentGlobalAdviceHandler {
 
     @ExceptionHandler(value = {ContentAPIRequestException.class})
     public ResponseEntity<Object> handleEmptyInput(ContentAPIRequestException exception){
-        ContentAPIException apiException = new ContentAPIException(exception.getMessage(), exception, HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        //ContentAPIException apiException = new ContentAPIException(exception.getMessage(), exception, HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
+        ContentAPIException apiException = new ContentAPIException(exception.getMessage(), HttpStatus.BAD_REQUEST, ZonedDateTime.now(ZoneId.of("Z")));
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 

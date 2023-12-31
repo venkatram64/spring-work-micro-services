@@ -1,6 +1,7 @@
 package com.venkat.service;
 
 import com.venkat.config.JwtService;
+import com.venkat.exception.ContentAPIRequestException;
 import com.venkat.model.CustomUserDetail;
 import com.venkat.model.Role;
 import com.venkat.model.User;
@@ -53,7 +54,8 @@ public class AuthenticationService {
             manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         }catch(AuthenticationException exception){
             logger.info("Authentication failed {}", exception);
-            throw new RuntimeException("Username or password is incorrect");
+            //throw new RuntimeException("Username or password is incorrect");
+            throw new ContentAPIRequestException("Username or password is incorrect");
         }
 
         var user = userRepository.findByEmail(request.email())
