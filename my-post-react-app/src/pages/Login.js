@@ -11,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [redirectTo, setRedirectTo] = useState(false);
+  //to access the context
   const [state, setState] = useContext(UserContext);
 
   const handleSubmit = async (e) => {
@@ -32,7 +33,10 @@ const Login = () => {
         password: password,
       });
       //debugger;
+      
       //update context
+      //setting the logged in user info, which will be available to all
+      //components
       setState({
         user: data.user,
         token: data.token,

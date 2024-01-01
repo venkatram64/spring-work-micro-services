@@ -15,9 +15,11 @@ const Nav = (props) => {
 
   //console.log("Current is ", current);
 
+  //logout link
   const logout = () => {
     window.localStorage.removeItem("auth");
     setState(null); //setting empty object
+    //after logout, show the login page to user
     props.history.push("/login");
   };
 

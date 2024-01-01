@@ -2,6 +2,7 @@ import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
+//create a contenx object
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
@@ -10,7 +11,8 @@ const UserProvider = ({ children }) => {
     user: {},
     token: ""
   });
-
+  //from local storage update the state
+  //which runs when the component mounts
   useEffect(() =>{
     setState(JSON.parse(window.localStorage.getItem('auth')));
   }, []);

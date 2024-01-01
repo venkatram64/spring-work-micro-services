@@ -6,6 +6,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { UserContext } from "../../context";
 import { useHistory } from "react-router-dom";
 
+//this will protect the pages
 const UserRoute = ({ children }) => {
   const [ok, setOk] = useState(false);
   const [state] = useContext(UserContext);
