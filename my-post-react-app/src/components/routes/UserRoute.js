@@ -1,17 +1,17 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 
 import { SyncOutlined } from "@ant-design/icons";
 import { UserContext } from "../../context";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
-//this will protect the pages
+//this will protect the pages/routes
 const UserRoute = ({ children }) => {
   const [ok, setOk] = useState(false);
   const [state] = useContext(UserContext);
   const history = useHistory();
 
+  //below component will be execuated, when the component mounts
   useEffect(() => {
     if (state && state.token && state.token.trim() !== "") {
       getCurrentUser();
@@ -41,13 +41,13 @@ const UserRoute = ({ children }) => {
       }
     } catch (err) {
       setOk(false);
-      console.log("I am redirecting to login...");
+      console.log("I am redirecting to login because user is not logged in...");
       history.push("/login");
     }
     return;
   };
 
-  state == null &&
+  state === null &&
     setTimeout(() => {
       getCurrentUser();
     }, 1000);
