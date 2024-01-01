@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,7 +30,8 @@ public class PostService {
         List<Post> postList = this.postRepository.findAll();
         List<PostVO> postVOList = postList
                 .stream()
-                .map(post -> new PostVO(post.getId(), post.getUserId(), post.getTitle(), post.getBody()))
+                .map(post -> new PostVO(post.getId(), post.getUserId(), post.getTitle(),
+                        post.getBody(), post.getCreatedAt(), post.getModifiedAt()))
                 .collect(Collectors.toList());
         return postVOList;
     }
@@ -38,18 +40,22 @@ public class PostService {
         logger.info("Fetching record for given id {} ", id);
         return this.postRepository
                 .findById(id)
-                .map(post -> new PostVO(post.getId(),post.getUserId(), post.getTitle(), post.getBody()));
+                .map(post -> new PostVO(post.getId(),post.getUserId(), post.getTitle(),
+                        post.getBody(), post.getCreatedAt(), post.getModifiedAt()));
     }
 
     public Post addPost(PostVO post){
         logger.info("Saving the record {} ", post);
         Post p = new Post(post.userId(), post.title(), post.body());
+        p.setCreatedAt(new Date());
+        p.setModifiedAt(new Date());
         return this.postRepository.save(p);
     }
 
     public Post update(PostVO post){
         logger.info("Update the record {} ", post);
         Post p = new Post(post.id(), post.userId(), post.title(), post.body());
+        p.setModifiedAt(new Date());
         return this.postRepository.save(p);
     }
 

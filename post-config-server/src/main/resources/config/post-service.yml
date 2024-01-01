@@ -13,7 +13,7 @@ management:
       probability: 1.0
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_posts
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_posts_new
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver

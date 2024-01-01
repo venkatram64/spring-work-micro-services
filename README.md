@@ -15,7 +15,7 @@ to see the logs in zipkin goto --> http://localhost:9411/
 Steps create following two tables
 
 step 1: create database schema as "db_posts" in mysql workbench or
-CREATE SCHEMA `db_posts` ;
+CREATE SCHEMA `db_posts_new` ;
 
 step 2: in above schema create following tables
 
@@ -26,6 +26,8 @@ last_name VARCHAR(50) NOT NULL,
 email VARCHAR(100) UNIQUE NOT NULL,
 password VARCHAR(255) NOT NULL,
 role VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
 );
 
@@ -36,6 +38,8 @@ id INT NOT NULL AUTO_INCREMENT,
 user_id INT NOT NULL,
 title VARCHAR(50) NOT NULL,
 body VARCHAR(255) NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 PRIMARY KEY (id),
 FOREIGN KEY (user_id) REFERENCES Users(id)
 );

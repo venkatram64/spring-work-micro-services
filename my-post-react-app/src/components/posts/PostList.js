@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { UserContext } from '../../context';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import moment from "moment";
 
 const PostList = ({posts, handleDelete}) => {
     const [state] = useContext(UserContext);
@@ -14,6 +15,7 @@ const PostList = ({posts, handleDelete}) => {
                 <tr>
                     <th>Post Title</th>
                     <th>Post Body</th>
+                    <th>Created</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -22,6 +24,7 @@ const PostList = ({posts, handleDelete}) => {
                 {posts && posts.map((post) => <tr key={post.id}>
                                 <th>{post.title}</th>
                                 <th>{post.body}</th>
+                                <th>{moment(post.createdAt).fromNow()}</th>
                                 {state && state.user && state.user.id === post.userId && (
                                     <>
                                         <th><EditOutlined onClick={() => history.push(`/user/post/${post.id}`)} className='text-danger'/></th>

@@ -4,3 +4,6 @@ server:
 spring:
   profiles:
     active: native
+  output:
+    ansi:
+      enabled: always

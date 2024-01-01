@@ -41,7 +41,8 @@ public class PostController {
     public ResponseEntity<PostVO> create(@RequestBody PostVO post){
         logger.info("Creating the record {} ", post);
         Post newPost = postService.addPost(post);
-        PostVO postVO = new PostVO(newPost.getId(), newPost.getUserId(), newPost.getTitle(), newPost.getBody());
+        PostVO postVO = new PostVO(newPost.getId(), newPost.getUserId(), newPost.getTitle(),
+                newPost.getBody(), newPost.getCreatedAt(), newPost.getModifiedAt());
         return ResponseEntity.ok(postVO);
     }
 
@@ -50,7 +51,8 @@ public class PostController {
     public ResponseEntity<PostVO> update(@RequestBody PostVO post){
         logger.info("Updating the record {} ", post);
         Post updatePost = postService.update(post);
-        PostVO updatedPostVO = new PostVO(updatePost.getId(), updatePost.getUserId(), updatePost.getTitle(),updatePost.getBody());
+        PostVO updatedPostVO = new PostVO(updatePost.getId(), updatePost.getUserId(), updatePost.getTitle(),
+                updatePost.getBody(), updatePost.getCreatedAt(), updatePost.getModifiedAt());
         return ResponseEntity.ok(updatedPostVO);
     }
 

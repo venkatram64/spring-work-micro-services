@@ -19,6 +19,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class AuthenticationService {
 
@@ -41,6 +43,8 @@ public class AuthenticationService {
         //create user, will save the user and returns the jwtToken
         var user = new User(request.firstName(),request.lastName(),
                     request.email(),passwordEncoder.encode(request.password()), Role.USER);
+        user.setCreatedAt(new Date());
+        user.setModifiedAt(new Date());
         var dbUser = userRepository.save(user);
         CustomUserDetail customUserDetail = new CustomUserDetail(dbUser);
         var jwtToken = jwtService.generateToken(customUserDetail);
