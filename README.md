@@ -14,7 +14,7 @@ to see the logs in zipkin goto --> http://localhost:9411/
 
 Steps create following two tables
 
-step 1: create database schema as "db_posts" in mysql workbench or
+step 1: create database schema as "db_posts_new" in mysql workbench or
 CREATE SCHEMA `db_posts_new` ;
 
 step 2: in above schema create following tables
