@@ -4,6 +4,7 @@ package com.venkat.service;
 import com.venkat.model.Post;
 import com.venkat.repository.PostRepository;
 import com.venkat.vo.PostVO;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,9 @@ public class PostService {
     public Post addPost(PostVO post){
         logger.info("Saving the record {} ", post);
         Post p = new Post(post.userId(), post.title(), post.body());
-        p.setCreatedAt(new Date());
-        p.setModifiedAt(new Date());
+        Date currentDate = new Date();
+        p.setCreatedAt(currentDate);
+        p.setModifiedAt(currentDate);
         return this.postRepository.save(p);
     }
 
@@ -59,7 +61,7 @@ public class PostService {
         return this.postRepository.save(p);
     }
 
-    public void remove(Integer id){
+    public void remove(Integer id) throws EntityNotFoundException {
         logger.info("Deleting the record {} ", id);
         this.postRepository.deleteById(id);
     }
