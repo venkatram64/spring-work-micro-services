@@ -26,11 +26,12 @@ import static org.mockito.Mockito.*;
 //@MockitoSettings(strictness = Strictness.LENIENT)
 class PostServiceTest {
 
+
     @Mock
     private PostRepository postRepository;
 
     @InjectMocks
-    private PostService postService;
+    private PostService postService;  //SUT
 
     @Test
     public void createPostTest(){
@@ -45,6 +46,7 @@ class PostServiceTest {
         createdPost.setCreatedAt(postVO.createdAt());
         createdPost.setModifiedAt(postVO.modifiedAt());
 
+        //when(postRepository.save(any(Post.class))).thenReturn(createdPost);
         when(postRepository.save(any(Post.class))).thenReturn(createdPost);
 
         Post result = postService.addPost(postVO);

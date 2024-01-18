@@ -23,7 +23,7 @@ public class ContentController {
         this.postClient = postClient;
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/posts")   //  /api/content/posts
     public ResponseEntity<List<Post>> getAll(){
         logger.info("Fetching all the records");
         return ResponseEntity.ok(this.postClient.findAll());
@@ -35,7 +35,7 @@ public class ContentController {
         return ResponseEntity.ok(this.postClient.findById(id).get());
     }
 
-    @PostMapping("/posts")
+    @PostMapping("/posts")   //  /api/conten/posts
     //@ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Post> create(@RequestBody Post post){
         if(post.title().isEmpty() || post.body().isEmpty()){
@@ -47,7 +47,7 @@ public class ContentController {
         return ResponseEntity.ok(newPost);
     }
 
-    @PutMapping("/posts")
+    @PutMapping("/posts")   //  /api/conten/posts
     //@ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Post> update(@RequestBody Post post){
         logger.info("Updating the record for {} ", post);
