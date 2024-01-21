@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @HttpExchange
-public interface PostClient {
+public interface PostClient {//which is interacting other restful webservice
 
     @GetExchange("/posts")
     List<Post> findAll();

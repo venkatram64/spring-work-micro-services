@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
-public class ClientConfig {
+public class ClientConfig { //which is interacting other restful webservice
 
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
 
