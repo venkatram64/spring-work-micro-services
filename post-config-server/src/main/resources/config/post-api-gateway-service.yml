@@ -21,19 +21,19 @@ eureka:
 spring:
   cloud:
     gateway:
-      globalcors:
+      globalcors:  #cors(cross origin resource sharing) configuration
         corsConfigurations:
           '[/**]':
             allowedOrigins: "*"
             allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
             allowedHeaders: "*"
       routes:
-        - id: post-service
-          uri: lb://post-service
+        - id: post-service #micro service application name
+          uri: lb://post-service #micro service application name
           predicates:
             - Path=/api/posts/**
-        - id: content-service
-          uri: lb://content-service
+        - id: content-service #micro service application name
+          uri: lb://content-service #micro service application name
           predicates:
             - Path=/api/auth/**, /api/content/**, /api/users/**
   output:
