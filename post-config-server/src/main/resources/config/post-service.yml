@@ -1,5 +1,6 @@
 server:
-  port: 8081
+  port: ${POST_SERVICE_SERVER_PORT:8081}
+
 management:
   endpoints:
     web:

@@ -16,7 +16,7 @@ public class ClientConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
 
-    @Autowired
+    @Autowired //client side load balance
     private LoadBalancedExchangeFilterFunction filterFunction;
 
     @Bean

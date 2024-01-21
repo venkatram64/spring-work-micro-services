@@ -31,7 +31,7 @@ class PostServiceTest {
     private PostRepository postRepository;
 
     @InjectMocks
-    private PostService postService;  //SUT
+    private PostService postService;  //System Under Test (SUT)
 
     @Test
     public void createPostTest(){
