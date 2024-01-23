@@ -29,7 +29,7 @@ public class AuthenticationService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
+    @Autowired //from ApplicationConfig.java
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -54,7 +54,8 @@ public class AuthenticationService {
     public AuthResponse authenticate(AuthRequest request) {//login user
         logger.info("authenticate the user");
         try {
-            //this will authenticate, internally it calls the authentication provider
+            //this will authenticate, internally it calls the authentication provider,
+            //that is CustomAuthenticationProvider.java
             manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         }catch(AuthenticationException exception){
             logger.info("Authentication failed {}", exception);

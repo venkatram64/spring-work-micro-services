@@ -20,7 +20,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class JwtService {
+public class JwtService {//this class is for creating the JWT token and some helper methods
 
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
     @Value("${jwtSecret}")
@@ -30,10 +30,12 @@ public class JwtService {
     private int expirationInMs;  //1000(milli seconds) * 60(seconds) * 60(minutes) * 10(hours) = 36000000
 
     public String  extractUsername(String token) {
+        //Claims::getSubject  --> lambda function that is Function<Claim,T>
         return extractClaim(token, Claims::getSubject);
     }
 
     public Date extractExpiration(String token) {
+        //Claims::getExpiration  --> lambda function that is Function<Claim,T>
         return extractClaim(token, Claims::getExpiration);
     }
 

@@ -9,7 +9,7 @@ management:
   endpoint:
     health:
       show-details: always
-  tracing:
+  tracing:  #for zipkin logging
     sampling:
       probability: 1.0
 
@@ -38,7 +38,7 @@ spring:
     ansi:
       enabled: always
 
-eureka:
+eureka: #client is registering into Eureka server
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
