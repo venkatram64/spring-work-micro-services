@@ -30,15 +30,16 @@ public class JwtService {//this class is for creating the JWT token and some hel
     private int expirationInMs;  //1000(milli seconds) * 60(seconds) * 60(minutes) * 10(hours) = 36000000
 
     public String  extractUsername(String token) {
-        //Claims::getSubject  --> lambda function that is Function<Claim,T>
+        //Claims::getSubject  --> method reference similar to lambda function that is Function<Claim,T>
         return extractClaim(token, Claims::getSubject);
     }
 
     public Date extractExpiration(String token) {
-        //Claims::getExpiration  --> lambda function that is Function<Claim,T>
+        //Claims::getExpiration  --> method reference similar to lambda function that is Function<Claim,T>
         return extractClaim(token, Claims::getExpiration);
     }
 
+    //generic method type is <T> return T
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
