@@ -29,6 +29,7 @@ public class AuthenticationService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired //from ApplicationConfig.java
     private PasswordEncoder passwordEncoder;
 
@@ -40,6 +41,14 @@ public class AuthenticationService {
 
     public AuthResponse register(UserRequest request){
         logger.info("Saving the user record");
+
+        if(getUser(request.email())){
+            throw new ContentAPIRequestException("User already exists ");
+        }
+        if(request.firstName().isEmpty() || request.lastName().isEmpty()
+                || request.email().isEmpty() || request.password().isEmpty()){
+            throw new ContentAPIRequestException("All fields should have values");
+        }
         //create user, will save the user and returns the jwtToken
         var user = new User(request.firstName(),request.lastName(),
                     request.email(),passwordEncoder.encode(request.password()), Role.USER);
@@ -77,12 +86,21 @@ public class AuthenticationService {
     public AuthResponse forgotPassword(AuthRequest request) {//login user
         logger.info("Forgot password user");
 
+        if(request.email().isEmpty() || request.password().isEmpty()){
+            throw new ContentAPIRequestException("All fields should have values");
+        }
+
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow();
         //set the new password
         user.setPassword(passwordEncoder.encode(request.password()));
-        //uppate the user
-        User newUser = userRepository.save(user);
+        //update the user
+        User newUser = null;
+        try {
+            newUser = userRepository.save(user);
+        }catch (Exception e){
+            throw new ContentAPIRequestException("Unable update the password");
+        }
         CustomUserDetail customUserDetail = new CustomUserDetail(newUser);
         var jwtToken = jwtService.generateToken(customUserDetail);
         return new AuthResponse(jwtToken, new UserVO(newUser.getId(),newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getRole().name()));

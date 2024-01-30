@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [content, setContent] = useState("");
   const [posts, setPosts] = useState([]);
 
+  //which runs when the component mounts
   useEffect(() => {
     if (state && state.token && state.token.trim() !== "") fetchPosts();
   }, [state && state.token]);
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const fetchPosts = async () => {
     console.log("*****state is ", state);
     try {
+      //axios configuration settings in index.js
       const { data } = await axios.get("/api/content/posts");
       setPosts(data);
       console.log("posts are ", data);
@@ -87,7 +89,7 @@ const Dashboard = () => {
           <div className="col-md-4">Sidebar</div>
           {/* <pre>{JSON.stringify(posts, null, 4)}</pre> */}
           <div className="row py-3">
-            <div className="col-md-8">{<PostList posts={posts} handleDelete={handleDelete}/>}</div>
+            <div className="col-md-8">{<PostList posts={posts} handleDelete={handleDelete} />}</div>
           </div>
         </div>
       </div>

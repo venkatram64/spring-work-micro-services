@@ -29,7 +29,7 @@ of the request valid application key is stored in app configurations.
 pass it to authentication manager
 3. Authentication provider perform evaluation to decide whether to mark the request
 authorized or unauthorized
-4. Authentication Object contains authentication status authorizated(true)
+4. Authentication Object contains authentication status authorized(true)
 unauthorized(false)
  */
 @Configuration

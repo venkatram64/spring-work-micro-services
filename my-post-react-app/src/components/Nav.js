@@ -5,10 +5,10 @@ import { Redirect, withRouter } from "react-router-dom";
 import Dashboard from "../pages/user/Dashboard";
 
 const Nav = (props) => {
-  
+
   const [current, setCurrent] = useState("");
   const [state, setState] = useContext(UserContext);
-
+  //which runs when the component mounts
   useEffect(() => {
     setCurrent(props.history.location.pathname);
   }, [props.history.location.pathname]);

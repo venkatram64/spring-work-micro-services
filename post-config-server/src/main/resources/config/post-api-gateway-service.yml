@@ -1,7 +1,7 @@
 server:
   port: 8060
 
-management:
+management: #actuator configuration
   endpoints:
     web:
       exposure:

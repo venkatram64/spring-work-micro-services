@@ -41,7 +41,6 @@ public class ContentController {
     public ResponseEntity<Post> create(@RequestBody Post post){
         if(post.title().isEmpty() || post.body().isEmpty()){
             throw new ContentAPIRequestException("All fields should have values");
-
         }
         Post newPost = this.postClient.create(post);
         logger.info("Creating the record for {} ", newPost);

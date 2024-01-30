@@ -1,8 +1,7 @@
 package com.venkat.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.venkat.exception.ContentAPIRequestException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
@@ -91,6 +90,8 @@ public class JwtService {//this class is for creating the JWT token and some hel
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    //token will be validated
     public Boolean validateToken(String token, UserDetails userDetails) {
         logger.info("Validating  the token");
         final String username = extractUsername(token);

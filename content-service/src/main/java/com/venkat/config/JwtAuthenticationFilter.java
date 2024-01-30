@@ -1,5 +1,8 @@
 package com.venkat.config;
 
+import com.venkat.exception.ContentAPIRequestException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +20,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+
+/*
+this class will validate the token, each request will have
+the token as header,
+ */
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -37,23 +45,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         final String jwtToken;
         final String userEmail;
-
+        //if request is having header, request will not be processed
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
         }
+        try {
+            jwtToken = authHeader.substring(7);
+            userEmail = jwtService.extractUsername(jwtToken);
 
-        jwtToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwtToken);
-
-        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            if(jwtService.validateToken(jwtToken, userDetails)){
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);//put token in SecurityContextHolder for logged in user
+            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                if (jwtService.validateToken(jwtToken, userDetails)) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);//put token in SecurityContextHolder for logged-in user
+                }
             }
+
+        }catch(ExpiredJwtException ex){
+            // Handle JWT token expiration
+            //ContentAPIRequestException newEx = new ContentAPIRequestException("JWT token is expired");
+            request.setAttribute("expired", "JWT token is expired"); // Set the exception as a request attribute
+            //filterChain.doFilter(request, response); // Continue to the next filter
+        }catch (JwtException ex){
+            // Handle JWT token tampering
+            //ContentAPIRequestException newEx = new ContentAPIRequestException("JWT token is not valid, please login again");
+            request.setAttribute("exception", "JWT token is not valid, please login again"); // Set the exception as a request attribute
+            //filterChain.doFilter(request, response); // Continue to the next filter
         }
         //this is for next filter if any or else this request goes to
         //Dispatcher servlet to Controller end point to process and gives the

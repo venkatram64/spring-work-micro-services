@@ -29,7 +29,7 @@ const UserRoute = ({ children }) => {
       //   }
       // );
 
-      //in UserRoute.js axios is configured
+      //in UserRoute.js axios is already configured, so use only endpoint not the entire url
       const user = await axios.get("/api/users");
 
       if (user != null) {
@@ -47,10 +47,9 @@ const UserRoute = ({ children }) => {
     return;
   };
 
-  state === null &&
-    setTimeout(() => {
-      getCurrentUser();
-    }, 1000);
+  state === null && setTimeout(() => {
+    getCurrentUser();
+  }, 1000);
 
   return !ok ? (
     <SyncOutlined

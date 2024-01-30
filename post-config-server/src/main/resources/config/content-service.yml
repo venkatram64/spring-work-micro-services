@@ -1,7 +1,7 @@
 server:
   port: ${CONTENT_SERVICE_SERVER_PORT:8080}
 
-management:
+management: #actuator configuration
   endpoints:
     web:
       exposure:
@@ -43,5 +43,6 @@ eureka: #client is registering into Eureka server
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
+#secret for creating JWT token, JWT token will live upto 10 hours
 jwtSecret: b6c3e9153b2ae05e5b20444bbf014ab0dba5cfac666117d767dbd284b825ed85
-expirationInMs: 36000000
+expirationInMs: 36000000  # 10(hours) * 60(minutes) * 60(seconds) * 1000(milli seconds) = 36000000
