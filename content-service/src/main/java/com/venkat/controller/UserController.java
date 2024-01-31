@@ -1,5 +1,6 @@
 package com.venkat.controller;
 
+import com.venkat.exception.ContentAPIRequestException;
 import com.venkat.model.CustomUserDetail;
 import com.venkat.model.User;
 import com.venkat.service.UserService;
@@ -19,8 +20,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public UserVO getCurrentUser(){
+    public UserVO getCurrentUser(){//logged-in user will be returned
+        //logged-in user will be set into SecurityContextHolder in JwtAuthenticationFilter.java class
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null){
+            throw new ContentAPIRequestException("User is null, please log into application");
+        }
         CustomUserDetail principal = (CustomUserDetail)authentication.getPrincipal();
         User user = userService.getUserByEmail(principal.getUsername()).get();
         UserVO userVO = new UserVO(user.getId(),user.getFirstName(),user.getLastName(), user.getEmail(), user.getRole().name());

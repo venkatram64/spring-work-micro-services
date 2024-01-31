@@ -33,7 +33,7 @@ authorized or unauthorized
 unauthorized(false)
  */
 @Configuration
-public class ApplicationConfig {
+public class ApplicationConfig { //this class will create the Beans those are used with @Autowired
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 

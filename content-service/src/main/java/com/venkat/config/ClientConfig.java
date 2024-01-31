@@ -13,12 +13,9 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
 public class ClientConfig { //which is interacting other restful webservice
-
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
-
     @Autowired //client side load balance
     private LoadBalancedExchangeFilterFunction filterFunction;
-
     @Bean
     PostClient postClient(){
         logger.info("Configuration for WebClient to connect another restful webservices");

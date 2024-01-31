@@ -34,6 +34,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
     @Autowired
     private JwtAuthenticationFilter jwtAuthFilter;
 
+    //this interface implementation is CustomAuthenticationProvider
     @Autowired
     private AuthenticationProvider authenticationProvider;
 
@@ -56,7 +57,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
                                 .anyRequest()
                                 .authenticated()
                         ).sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).authenticationProvider(authenticationProvider)
                         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
@@ -83,9 +84,11 @@ public class SecurityConfig {//spring security, each request is intercepted by t
             //key, which is set in ContentServiceApplication class
             String exception = (String)request.getAttribute("exception");
             if(exception != null){
-                response.getOutputStream().println("{ \"error\": \"Unauthorized\", \"message\": \"" + exception + "\" }");
+                response.getOutputStream()
+                        .println("{ \"error\": \"Unauthorized\", \"message\": \"" + exception + "\" }");
             }else {
-                response.getOutputStream().println("{ \"error\": \"Unauthorized\", \"message\": \"" + authException.getMessage() + "\" }");
+                response.getOutputStream()
+                        .println("{ \"error\": \"Unauthorized\", \"message\": \"" + authException.getMessage() + "\" }");
             }
         }
     }
