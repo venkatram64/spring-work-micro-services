@@ -76,10 +76,11 @@ public class SecurityConfig {//spring security, each request is intercepted by t
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              org.springframework.security.core.AuthenticationException authException)
                 throws IOException, ServletException {
+
             logger.error("Responding with unauthorized error. Message - {}", authException.getMessage());
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
+            //key, which is set in ContentServiceApplication class
             String exception = (String)request.getAttribute("exception");
             if(exception != null){
                 response.getOutputStream().println("{ \"error\": \"Unauthorized\", \"message\": \"" + exception + "\" }");
