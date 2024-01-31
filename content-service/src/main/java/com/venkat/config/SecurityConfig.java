@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig {//spring security, each request is intercepted by this class
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
@@ -71,7 +71,7 @@ public class SecurityConfig {
     }
 
     private static class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-        private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+        private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationEntryPoint.class);
         @Override
         public void commence(HttpServletRequest request, HttpServletResponse response,
                              org.springframework.security.core.AuthenticationException authException)
