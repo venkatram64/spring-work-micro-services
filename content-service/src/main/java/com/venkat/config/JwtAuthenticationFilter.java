@@ -66,14 +66,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }catch(ExpiredJwtException ex){
             // Handle JWT token expiration
-            //ContentAPIRequestException newEx = new ContentAPIRequestException("JWT token is expired");
             request.setAttribute("expired", "JWT token is expired"); // Set the exception as a request attribute
-            //filterChain.doFilter(request, response); // Continue to the next filter
         }catch (JwtException ex){
             // Handle JWT token tampering
-            //ContentAPIRequestException newEx = new ContentAPIRequestException("JWT token is not valid, please login again");
             request.setAttribute("exception", "JWT token is not valid, please login again"); // Set the exception as a request attribute
-            //filterChain.doFilter(request, response); // Continue to the next filter
         }
         //this is for next filter if any or else this request goes to
         //Dispatcher servlet to Controller end point to process and gives the

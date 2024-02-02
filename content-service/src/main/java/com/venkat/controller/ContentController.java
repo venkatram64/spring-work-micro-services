@@ -19,7 +19,7 @@ public class ContentController {
 
     private final PostClient postClient;
 
-    //
+    //constructor injection
     public ContentController(PostClient postClient) {
         this.postClient = postClient;
     }

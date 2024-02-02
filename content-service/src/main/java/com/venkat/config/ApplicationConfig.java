@@ -66,18 +66,4 @@ public class ApplicationConfig { //this class will create the Beans those are us
         return config.getAuthenticationManager();
     }
 
- /*   //this is for cors, to allow different origins to access
-    @Bean
-    public WebMvcConfigurer webMvcConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry
-                        .addMapping("/**")
-                        .allowedMethods(CorsConfiguration.ALL)
-                        .allowedOriginPatterns(CorsConfiguration.ALL)
-                        .allowedHeaders(CorsConfiguration.ALL);
-            }
-        };
-    }*/
 }

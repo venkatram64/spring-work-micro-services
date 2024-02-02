@@ -12,9 +12,9 @@ import org.springframework.web.reactive.function.client.support.WebClientAdapter
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
-public class ClientConfig { //which is interacting other restful webservice
+public class ClientConfig { //which is interacting to other restful webservice
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
-    @Autowired //client side load balance
+    @Autowired //client side load balancer
     private LoadBalancedExchangeFilterFunction filterFunction;
     @Bean
     PostClient postClient(){

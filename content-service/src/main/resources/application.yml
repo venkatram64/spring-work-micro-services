@@ -1,3 +1,8 @@
+#logging you can turn off by commenting
+#logging:
+  #level:
+    #org.springframework.security=TRACE
+
 spring:
   application:
     name: content-service
