@@ -3,7 +3,8 @@ package com.venkat.exception;
 import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
-
+//this class is used to wrap the any service thrown exception and
+//sent as a response
 public class ContentAPIException {
 
     private final String errorMsg;

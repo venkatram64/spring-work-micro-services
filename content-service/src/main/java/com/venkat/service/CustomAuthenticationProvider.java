@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+//this class is used to check logged-in user credential with database record for
+//whom he claims
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);

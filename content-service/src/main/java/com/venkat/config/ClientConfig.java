@@ -27,6 +27,7 @@ public class ClientConfig { //which is interacting to other restful webservice
         HttpServiceProxyFactory factory = HttpServiceProxyFactory
                         .builderFor(WebClientAdapter.create(client))
                         .build();
+        //by using factory object PostClient object is created
         return factory.createClient(PostClient.class);
     }
 }

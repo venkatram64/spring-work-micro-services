@@ -62,6 +62,7 @@ public class JwtService {//this class is for creating the JWT token and some hel
         return extractExpiration(token).before(new Date());
     }
 
+    //this method is used to generate the token for given UserDetails
     public String generateToken(UserDetails userDetails) {
         logger.info("Generating the token");
         Map<String, Object> claims = new HashMap<>(); //empty claims
