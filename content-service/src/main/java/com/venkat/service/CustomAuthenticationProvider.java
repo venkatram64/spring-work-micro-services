@@ -13,11 +13,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 //this class is used to check logged-in user credential with database record for
-//whom he claims
+//whom he claims and invoked from authentication manager
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 
+    //CustomUserDetailService implements the UserDetailsService
     private UserDetailsService userDetailService;
     private PasswordEncoder passwordEncoder;
 
@@ -31,6 +32,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         logger.info("Authenticating the user ");
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
+        //loading the user for given email from the database
         UserDetails userDetails = userDetailService.loadUserByUsername(email);
         if(!passwordEncoder.matches(password, userDetails.getPassword())){
             //Authentication failed

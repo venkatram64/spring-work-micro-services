@@ -2,6 +2,8 @@ server:
   port: 8088
 
 spring:  #config server configuration
+  application:
+    name: post-config-server
   profiles:
     active: native
   output:

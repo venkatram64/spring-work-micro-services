@@ -42,7 +42,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         logger.info("securityFilterChain is called");
-        //athentication
+        //authentication
         http
                 //.cors(Customizer.withDefaults())//by default use a bean by the name of corsConfigurationSource
                 //.cors(c -> c.configurationSource(corsConfigurationSource()))
@@ -58,7 +58,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
                                 .authenticated()
                         ).sessionManagement(session ->
                             session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ).authenticationProvider(authenticationProvider)
+                ).authenticationProvider(authenticationProvider) //will check user credentials(password comparison)
                         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint()));
@@ -81,7 +81,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
             logger.error("Responding with unauthorized error. Message - {}", authException.getMessage());
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            //key, which is set in ContentServiceApplication class
+            //key, which is set in JwtAuthenticationFilter class
             String exception = (String)request.getAttribute("exception");
             if(exception != null){
                 response.getOutputStream()

@@ -1,5 +1,6 @@
 package com.venkat.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -20,10 +21,12 @@ public class User {
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "modified_at", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private Date modifiedAt;
 

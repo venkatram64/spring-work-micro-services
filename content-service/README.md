@@ -58,3 +58,7 @@ above taken will be generated for registered user
 GET http://localhost:8080/api/content/posts
 
 
+spring authentication
+![img.png](img.png)
+
+

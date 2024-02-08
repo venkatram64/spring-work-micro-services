@@ -23,7 +23,7 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("fetching the user {}", username);
         Optional<User> user = userRepository.findByEmail(username);
-        return user.map(CustomUserDetail::new)
+        return user.map(CustomUserDetail::new) //method reference lambda expression
                 .orElseThrow(() -> new UsernameNotFoundException("User not found in database for given email " + username));
     }
 }

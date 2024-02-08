@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-@EnableDiscoveryClient
+@EnableDiscoveryClient //to register with Eureka server
 public class ContentServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ContentServiceApplication.class);
