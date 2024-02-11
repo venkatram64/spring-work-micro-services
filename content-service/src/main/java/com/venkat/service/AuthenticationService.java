@@ -39,7 +39,7 @@ public class AuthenticationService {
     @Autowired  //from ApplicationConfig.java
     private AuthenticationManager manager;
 
-    public AuthResponse register(UserRequest request){
+    public AuthResponse register(UserRequest request){ //saving the user into database
         logger.info("Saving the user record");
 
         if(getUser(request.email())){
@@ -54,10 +54,12 @@ public class AuthenticationService {
                     request.email(),passwordEncoder.encode(request.password()), Role.USER);
         user.setCreatedAt(new Date());
         user.setModifiedAt(new Date());
+        //save user in database
         var dbUser = userRepository.save(user);
+        //construct below object to get JWT token
         CustomUserDetail customUserDetail = new CustomUserDetail(dbUser);
         var jwtToken = jwtService.generateToken(customUserDetail);
-        return new AuthResponse(jwtToken, new UserVO(user.getId(),user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().name()));
+        return new AuthResponse(jwtToken, new UserVO(dbUser.getId(), dbUser.getFirstName(), dbUser.getLastName(), dbUser.getEmail(), dbUser.getRole().name()));
     }
 
     public AuthResponse authenticate(AuthRequest request) {//user is login into system
@@ -65,7 +67,9 @@ public class AuthenticationService {
         try {
             //this will authenticate, internally it calls the authentication provider,
             //that is CustomAuthenticationProvider.java
-            manager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(request.email(), request.password());
+            manager.authenticate(authenticationToken);
         }catch(AuthenticationException exception){
             logger.info("Authentication failed {}", exception);
             //throw new RuntimeException("Username or password is incorrect");

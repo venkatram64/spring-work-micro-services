@@ -30,7 +30,7 @@ pass it to authentication manager
 3. Authentication provider perform evaluation to decide whether to mark the request
 authorized or unauthorized
 4. Authentication Object contains authentication status authorized(true)
-unauthorized(false)
+unauthorized(true)
  */
 @Configuration
 public class ApplicationConfig { //this class will create the Beans those are used with @Autowired
