@@ -1,6 +1,5 @@
 package com.venkat.controller;
 
-import com.venkat.exception.ContentAPIRequestException;
 import com.venkat.service.AuthenticationService;
 import com.venkat.vo.AuthRequest;
 import com.venkat.vo.AuthResponse;

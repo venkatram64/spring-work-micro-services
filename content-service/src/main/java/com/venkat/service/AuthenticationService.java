@@ -2,7 +2,6 @@ package com.venkat.service;
 
 import com.venkat.config.JwtService;
 import com.venkat.exception.ContentAPIRequestException;
-import com.venkat.model.CustomUserDetail;
 import com.venkat.model.Role;
 import com.venkat.model.User;
 import com.venkat.repository.UserRepository;
@@ -57,8 +56,7 @@ public class AuthenticationService {
         //save user in database
         var dbUser = userRepository.save(user);
         //construct below object to get JWT token
-        CustomUserDetail customUserDetail = new CustomUserDetail(dbUser);
-        var jwtToken = jwtService.generateToken(customUserDetail);
+        var jwtToken = jwtService.generateToken(dbUser);
         return new AuthResponse(jwtToken, new UserVO(dbUser.getId(), dbUser.getFirstName(), dbUser.getLastName(), dbUser.getEmail(), dbUser.getRole().name()));
     }
 
@@ -76,15 +74,13 @@ public class AuthenticationService {
             throw new ContentAPIRequestException("Username or password is incorrect");
         }
 
-        var user = userRepository.findByEmail(request.email())
-                .orElseThrow();
-        CustomUserDetail customUserDetail = new CustomUserDetail(user);
-        var jwtToken = jwtService.generateToken(customUserDetail);
+        var user = userRepository.findByEmail(request.email());
+        var jwtToken = jwtService.generateToken(user);
         return new AuthResponse(jwtToken, new UserVO(user.getId(),user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().name()));
     }
 
     public boolean getUser(String email){
-        return userRepository.findByEmail(email).isPresent();
+        return userRepository.findByEmail(email) != null ? true : false;
     }
 
     public AuthResponse forgotPassword(AuthRequest request) {//login user
@@ -94,8 +90,7 @@ public class AuthenticationService {
             throw new ContentAPIRequestException("All fields should have values");
         }
 
-        var user = userRepository.findByEmail(request.email())
-                .orElseThrow();
+        var user = userRepository.findByEmail(request.email());
         //set the new password
         user.setPassword(passwordEncoder.encode(request.password()));
         //update the user
@@ -105,8 +100,7 @@ public class AuthenticationService {
         }catch (Exception e){
             throw new ContentAPIRequestException("Unable update the password");
         }
-        CustomUserDetail customUserDetail = new CustomUserDetail(newUser);
-        var jwtToken = jwtService.generateToken(customUserDetail);
+        var jwtToken = jwtService.generateToken(newUser);
         return new AuthResponse(jwtToken, new UserVO(newUser.getId(),newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(), newUser.getRole().name()));
     }
 

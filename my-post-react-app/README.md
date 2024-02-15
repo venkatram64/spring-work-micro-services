@@ -69,11 +69,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-----------------------
+---
+
+added modules
 
 npm i bootstrap
 
-npm i  react-router-dom@^5.2.0
+npm i react-router-dom@^5.2.0
 
 npm i react-quill
 
@@ -81,10 +83,10 @@ npm i react-render-html --force
 npm i moment
 
 added extension for html to jsx
-added emment in settings 
+added emment in settings
 "emmet.includeLanguages": {
-        "javascript":"javascriptreact"
-    }
+"javascript":"javascriptreact"
+}
 
 to start the application
 
