@@ -44,25 +44,25 @@ public class SecurityConfig {//spring security, each request is intercepted by t
         logger.info("securityFilterChain is called");
         //authentication
         http
-                //.cors(Customizer.withDefaults())//by default use a bean by the name of corsConfigurationSource
-                //.cors(c -> c.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
-                        .authorizeHttpRequests(request -> request
-                                .requestMatchers("/api/auth/**")
-                                    .permitAll()
-                                .requestMatchers("/actuator/**")
-                                    .permitAll()
-                                .requestMatchers(CorsUtils::isPreFlightRequest)
-                                    .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                        ).sessionManagement(session ->
-                            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ).authenticationProvider(authenticationProvider) //will check user credentials(password comparison)
-                        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(customAuthenticationEntryPoint()));
-
+            //.cors(Customizer.withDefaults())//by default use a bean by the name of corsConfigurationSource
+            //.cors(c -> c.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(request -> {
+                request.requestMatchers("/api/auth/**")
+                        .permitAll();
+                request.requestMatchers("/actuator/**")
+                        .permitAll();
+                request.requestMatchers(CorsUtils::isPreFlightRequest)
+                        .permitAll();
+                request.anyRequest()
+                        .authenticated();
+            }).sessionManagement(session ->
+                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            ).authenticationProvider(authenticationProvider) //will check user credentials(password comparison)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+                    .authenticationEntryPoint(customAuthenticationEntryPoint())
+            );
         return http.build();
     }
 

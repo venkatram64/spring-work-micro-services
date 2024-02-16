@@ -8,7 +8,7 @@ import { Redirect } from "react-router-dom";
 import { SyncOutlined } from "@ant-design/icons";
 
 const ForgotPassword = () => {
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ok, setOk] = useState(false);
@@ -18,14 +18,14 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);     
+      setLoading(true);
 
       //axios is configured in UserRoute.js
       const { data } = await axios.put("/api/auth/forgot-password", {
         email: email,
         password: password,
       });
-      
+
       //empty the form     
       setEmail("");
       setPassword("");
@@ -37,9 +37,11 @@ const ForgotPassword = () => {
       setLoading(false);
     }
   };
+
   if (state && state.token) {
     return <Redirect to="/" />;
   }
+
   return (
     <div className="container-fluid">
       <div className="row py-5 bg-secondary text-light">

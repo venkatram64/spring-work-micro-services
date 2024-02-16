@@ -20,18 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/*
-custom authentication which will authenticate requests based on a key present in the header
-of the request valid application key is stored in app configurations.
 
-1. Security Config wire up the authentication filter in the spring context
-2. Authentication Filter intercept the request , create authentication object and
-pass it to authentication manager
-3. Authentication provider perform evaluation to decide whether to mark the request
-authorized or unauthorized
-4. Authentication Object contains authentication status authorized(true)
-unauthorized(true)
- */
 @Configuration
 public class ApplicationConfig { //this class will create the Beans those are used with @Autowired
 

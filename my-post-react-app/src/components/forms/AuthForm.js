@@ -11,7 +11,7 @@ const AuthForm = ({
   password,
   setPassword,
   loading,
-  page,
+  page
 }) => (
   <form onSubmit={handleSubmit}>
     {page !== "login" && (
