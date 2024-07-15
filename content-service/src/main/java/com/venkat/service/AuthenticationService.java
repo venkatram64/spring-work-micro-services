@@ -60,7 +60,7 @@ public class AuthenticationService {
         return new AuthResponse(jwtToken, new UserVO(dbUser.getId(), dbUser.getFirstName(), dbUser.getLastName(), dbUser.getEmail(), dbUser.getRole().name()));
     }
 
-    public AuthResponse authenticate(AuthRequest request) {//user is login into system
+    public AuthResponse authenticate(AuthRequest request) {//user is trying login into system
         logger.info("authenticate the user");
         try {
             //this will authenticate, internally it calls the authentication provider,

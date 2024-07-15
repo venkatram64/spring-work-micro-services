@@ -1,4 +1,4 @@
-Note: config server is added in this branch and reactjs front app is also added
+Note: config server is added in this branch and reactjs frontend app is also added
 
 order of starting services:
 1. post-config-server
@@ -6,7 +6,7 @@ order of starting services:
 3. post-service
 4. content-service
 5. post-api-gateway-service
-6. to see the logs start the docker-compose.yml this is for to see the logs
+6. zipkin, to see the logs start the docker-compose.yml this is for to see the logs
 7. run the my-post-react-app to test from front end
 
 this is the complete application
@@ -64,7 +64,7 @@ http://localhost:8060/api/auth/register
 "password":"srijan"
 }
 
-returns the token
+returns the JWT token
 
 
 step 2: to login or authenticate
@@ -80,8 +80,7 @@ return the token
 
 step 3:
 
-take the token add it as bearer token in "Authorization" tab in
-postman
+take the token add it as bearer token in "Authorization" tab in postman
 
 eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlqYW4udmVlcmFyZWRkeUBnbWFpbC5jb20iLCJpYXQiOjE3MDMyMzYzNjIsImV4cCI6MTcwMzI3MjM2Mn0.tXh2wU_gWx04oI0Wjqc-648TOyTk5kEQ-1o5zEVClhs
 take the user id form Users table
