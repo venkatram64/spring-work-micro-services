@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
-@EnableConfigServer  //to register with Eureka server
+@EnableConfigServer  //to register with Config server
 public class PostConfigServerApplication {
 
 	public static void main(String[] args) {
