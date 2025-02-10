@@ -59,8 +59,8 @@ http://localhost:8060/api/auth/register
 
 {
 "firstName": "Srijan",
-"lastName": "Veerareddy",
-"email": "srijan.veera@gmail.com",
+"lastName": "Srijan",
+"email": "srijan.srijan@gmail.com",
 "password":"1234"
 }
 
@@ -72,7 +72,7 @@ POST:
 http://localhost:8060/api/auth/authenticate
 
 {
-"email":"srijan.veera@gmail.com",
+"email":"srijan.srijan@gmail.com",
 "password": "12345"
 }
 
