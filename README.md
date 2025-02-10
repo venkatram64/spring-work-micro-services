@@ -72,8 +72,8 @@ POST:
 http://localhost:8060/api/auth/authenticate
 
 {
-"email":"srijan.veerareddy@gmail.com",
-"password": "srijan"
+"email":"srijan.veera@gmail.com",
+"password": "12345"
 }
 
 return the token
