@@ -60,8 +60,8 @@ http://localhost:8060/api/auth/register
 {
 "firstName": "Srijan",
 "lastName": "Veerareddy",
-"email": "srijan.veerareddy@gmail.com",
-"password":"srijan"
+"email": "srijan.veera@gmail.com",
+"password":"1234"
 }
 
 returns the JWT token
