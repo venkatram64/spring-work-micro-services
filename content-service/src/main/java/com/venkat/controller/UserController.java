@@ -1,11 +1,11 @@
 package com.venkat.controller;
 
 import com.venkat.exception.ContentAPIRequestException;
-import com.venkat.model.CustomUserDetail;
 import com.venkat.model.User;
 import com.venkat.service.UserService;
 import com.venkat.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +26,10 @@ public class UserController {
         if(authentication == null){
             throw new ContentAPIRequestException("User is null, please log into application");
         }
-        CustomUserDetail principal = (CustomUserDetail)authentication.getPrincipal();
-        User user = userService.getUserByEmail(principal.getUsername()).get();
+        String principal = (String)authentication.getPrincipal();
+        //UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)authentication.getCredentials();
+        //String principal = (String)token.getPrincipal();
+        User user = userService.getUserByEmail(principal);
         UserVO userVO = new UserVO(user.getId(),user.getFirstName(),user.getLastName(), user.getEmail(), user.getRole().name());
         return userVO;
     }

@@ -33,6 +33,7 @@ public class ContentGlobalAdviceHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<String>("No value present in database", HttpStatus.NOT_FOUND);
     }
 
+    //please change http method type
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
                                                                          HttpHeaders headers, HttpStatusCode status, WebRequest request) {

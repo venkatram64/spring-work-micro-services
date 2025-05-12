@@ -1,22 +1,18 @@
 package com.venkat.config;
 
-import com.venkat.exception.ContentAPIRequestException;
+import com.venkat.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class JwtService {//this class is for creating the JWT token and some helper methods
@@ -63,19 +59,17 @@ public class JwtService {//this class is for creating the JWT token and some hel
     }
 
     //this method is used to generate the token for given UserDetails
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         logger.info("Generating the token");
         Map<String, Object> claims = new HashMap<>(); //empty claims
-        String authorities = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-        return createToken(claims, userDetails.getUsername(), authorities);
+        String authorities = user.getRole().name();
+        return createToken(claims, user.getEmail(), authorities);
     }
 
     public String createToken(Map<String, Object> claims, String subject, String authorities) {
-        return Jwts.builder().
-                setClaims(claims).
-                setSubject(subject)
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationInMs))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -83,9 +77,9 @@ public class JwtService {//this class is for creating the JWT token and some hel
     }
 
     public String createToken(Map<String, Object> claims, UserDetails userDetails) {
-        return Jwts.builder().
-                setClaims(claims).
-                setSubject(userDetails.getUsername())
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationInMs))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -93,10 +87,10 @@ public class JwtService {//this class is for creating the JWT token and some hel
     }
 
     //token will be validated
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, User user) {
         logger.info("Validating  the token");
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(user.getEmail()) && !isTokenExpired(token));
     }
 
 }
