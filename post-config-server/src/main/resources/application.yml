@@ -4,6 +4,8 @@ server:
 spring:  #config server configuration
   application:
     name: post-config-server
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
   profiles:
     active: native
   output:

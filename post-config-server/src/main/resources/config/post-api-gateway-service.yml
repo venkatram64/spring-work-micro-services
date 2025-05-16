@@ -1,6 +1,14 @@
 server:
   port: 8060
 
+#logging:
+  #level:
+    #org.springframework.cloud.gateway: DEBUG
+    #org.springframework.cloud.loadbalancer: TRACE
+    #com.netflix.discovery: TRACE
+    #org.springframework.web: DEBUG
+
+
 management: #actuator configuration
   endpoints:
     web:
@@ -17,25 +25,50 @@ eureka: #client is registering into Eureka server
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+    fetchRegistry: true   # Add this to fetch service registry
+    registerWithEureka: true   # Add this to register with eureka
+  instance:
+    hostname: ${spring.application.name}
+    #preferIpAddress: true
+    #hostname: localhost
+    instanceId: ${spring.application.name}:${server.port}
 
 spring:
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 5s
+        pool:
+          max-idle-time: 30000
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
       globalcors:  #cors(cross origin resource sharing) configuration
         corsConfigurations:
           '[/**]':
             allowedOrigins: "*"
             allowedMethods: "GET,POST,PUT,DELETE,OPTIONS"
             allowedHeaders: "*"
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin
+
       routes:
         - id: post-service #micro service application name
-          uri: lb://post-service #micro service application name
+          uri: lb://post-service          #micro service application name
           predicates:
             - Path=/api/posts/**
         - id: content-service #micro service application name
-          uri: lb://content-service #micro service application name
+          uri: lb://content-service          #micro service application name
           predicates:
             - Path=/api/auth/**, /api/content/**, /api/users/**
+  reactor:
+    netty:
+      resources:
+        dns:
+          query-timeout: 500
+          max-queries-per-resolve: 1
   output:
     ansi:
       enabled: always

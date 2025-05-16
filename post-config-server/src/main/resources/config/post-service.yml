@@ -39,6 +39,13 @@ spring:
 
 eureka:  #client is registering into Eureka server
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    #preferIpAddress: true
+    #hostname: localhost
+    hostname: ${spring.application.name}
+    instanceId: ${spring.application.name}:${server.port}
 

@@ -1,4 +1,10 @@
-Note: config server is added in this branch and reactjs frontend app is also added
+Note: config server with git repo  is added in this branch and reactjs frontend app is also added
+
+please map in hosts file  
+On Linux/Mac: /etc/hosts
+On Windows: C:\Windows\System32\drivers\etc\hosts
+127.0.0.1 content-service
+127.0.0.1 post-service
 
 order of starting services:
 1. post-config-server

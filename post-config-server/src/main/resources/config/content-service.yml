@@ -1,5 +1,5 @@
 server:
-  port: ${CONTENT_SERVICE_SERVER_PORT:8080}
+  port: ${CONTENT_SERVICE_SERVER_PORT:8082}
 
 management: #actuator configuration
   endpoints:
@@ -40,8 +40,15 @@ spring:
 
 eureka: #client is registering into Eureka server
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+  instance:
+    #preferIpAddress: true
+    #hostname: localhost
+    hostname: ${spring.application.name}
+    instanceId: ${spring.application.name}:${server.port}
 
 #secret for creating JWT token, JWT token will live upto 10 hours
 jwtSecret: b6c3e9153b2ae05e5b20444bbf014ab0dba5cfac666117d767dbd284b825ed85
