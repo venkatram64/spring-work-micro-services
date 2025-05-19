@@ -1,5 +1,7 @@
 Note: config server with git repo  is added in this branch and reactjs frontend app is also added
 
+config github url: https://github.com/venkatram64/my-config-server-data-in-git
+
 please map in hosts file  
 On Linux/Mac: /etc/hosts
 On Windows: C:\Windows\System32\drivers\etc\hosts
