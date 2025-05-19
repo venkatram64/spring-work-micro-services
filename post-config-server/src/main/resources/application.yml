@@ -1,13 +1,26 @@
 server:
   port: 8088
-
-spring:  #config server configuration
+spring:
   application:
-    name: post-config-server
-  instance:
-    instance-id: ${spring.application.name}:${server.port}
-  profiles:
-    active: native
+    name: post-config-server  # Must match the config file name in Git
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_REPO_URI:https://github.com/venkatram64/my-config-server-data-in-git.git}  # Replace with your Git repo URL
+          default-label: ${GIT_DEFAULT_BRANCH:main}  # Specify your default branch
+          search-paths: config
+          clone-on-start: true
+      #uri: ${CONFIG_SERVER_URI:http://localhost:8088}  # Fallback for self-bootstrap
+      #fail-fast: true
+      retry:
+        initial-interval: 3000
+        max-attempts: 5
   output:
     ansi:
       enabled: always
+
+#logging:
+  #level:
+    #org.springframework.cloud.config.server: DEBUG
+    #org.eclipse.jgit: DEBUG
