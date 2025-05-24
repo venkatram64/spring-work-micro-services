@@ -15,7 +15,27 @@ order of starting services:
 0. create a network
    docker network create shared-network
 1. zipkin, to see the logs start the docker-compose.yml this is for to see the logs
+      run the 
+   docker-compose up -d  (in the root folder)
+      to stop 
+   docker-compose down
+      to see the logs
+   docker-compose logs -f
+
 2. follow the steps in post-config-server' s README.md 
+
+   clean the maven
+   mvn clean
+   mvn package
+
+   run the 
+   docker-compose up -d  
+   to stop 
+   docker-compose down
+   to see the logs
+   docker-compose logs -f
+follow the same steps for below ones
+
 3. follow the steps in service-registry-in-eureka' s README.md
 4. follow the steps in post-service' s README.md
 5. follow the steps in content-service' s README.md
