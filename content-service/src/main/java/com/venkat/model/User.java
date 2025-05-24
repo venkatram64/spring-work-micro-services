@@ -31,6 +31,7 @@ public class User {
     private Date modifiedAt;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private Role role;
 
     public User() {//default constructor

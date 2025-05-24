@@ -7,7 +7,7 @@ spring:
     config:
       server:
         git:
-          uri: ${GIT_REPO_URI:https://github.com/venkatram64/my-config-server-data-in-git.git}  # Replace with your Git repo URL
+          uri: ${GIT_REPO_URI:https://github.com/venkatram64/my-ms-centralized-config.git}  # Replace with your Git repo URL
           default-label: ${GIT_DEFAULT_BRANCH:main}  # Specify your default branch
           search-paths: config
           clone-on-start: true

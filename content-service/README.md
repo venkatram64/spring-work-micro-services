@@ -1,78 +1,67 @@
-https://jwt.io/
 
-to generate key https://securekit.org/random-key-generator
-I used some string like "mytestkey"
+Step 1: maven package, which will build the jar file (content-service.jar)
 
-step 1: create database schema as "db_posts" in mysql workbench or
-CREATE SCHEMA `db_posts_new` ;
+step 2:
 
-step 2: in above schema create following tables
+build the image
 
-CREATE TABLE Users (
-id INT NOT NULL AUTO_INCREMENT,
-first_name VARCHAR(50) NOT NULL,
-last_name VARCHAR(50) NOT NULL,
-email VARCHAR(100) UNIQUE NOT NULL,
-password VARCHAR(255) NOT NULL,
-role VARCHAR(255) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY (id)
-);
-
-CREATE TABLE Posts (
-id INT NOT NULL AUTO_INCREMENT,
-user_id INT NOT NULL,
-title VARCHAR(50) NOT NULL,
-body VARCHAR(255) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY (id),
-FOREIGN KEY (user_id) REFERENCES Users(id)
-);
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker build -t explorejava/content-service .
 
 
+                 or
 
----------------running the rest end points
+rebuild the images before starting the docker compose
 
-step 1: register
-Post:   http://localhost:8081/api/auth/register
+docker-compose up -d --build
 
-data --->
-{
-"firstName": "Venkatram",
-"lastName": "Veerareddy",
-"email": "venkat.veerareddy@gmail.com",
-"password":"venkat"
-}
+docker the images
 
-step 2: authenticate
+docker images
 
-and    
-http://localhost:8080/api/auth/authenticate
-Post -->  {
-"email":"venkat.veerareddy@gmail.com",
-"passwrd": "venkat"
-}
+------------------------------
+
+to remove the images
 
 
-step 3:
+docker rmi explorejava/content-service
 
-set the bearer in postman below token, then run the following
+clean up unused images
 
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2ZW5rYXQudmVlcmFyZWRkeUBnbWFpbC5jb20iLCJpYXQiOjE3MDMxNDAyMjYsImV4cCI6MTcwMzE3NjIyNn0.ka2zzBr11B_1GDEOeCCY2Gw2mTHEJVsmPEADikQ7oUI
+docker image prune -a
 
-above taken will be generated for registered user
+removes all unused images, containers, networks, and volumes
+docker system prune -a
+--------------------------------
 
-GET http://localhost:8080/api/content/posts
+Step 3: run the docker compose as a background process
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker-compose up -d
+
+docker logs content-service
+
+check the running containers
+
+docker-compose ps
+
+docker ps
+
+to see the logs
+
+docker-compose logs
+or
+
+docker-compose logs -f
+
+to stop above ctrl+c
+
+Step 4: to stop the docker compose
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker-compose down
 
 
-spring authentication
-![img.png](img.png)
+to see the logs of mysql
+
+docker logs content-mysql
 
 
-![img_1.png](img_1.png)
-
-![img_2.png](img_2.png)
-
-
+docker volume prune

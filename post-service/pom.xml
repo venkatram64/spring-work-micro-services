@@ -92,6 +92,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>post-service</finalName>
     </build>
 
 </project>

@@ -1,12 +1,11 @@
 
-Step 1: maven package, which will build the jar file (post-service.jar)
+Step 1: maven package, which will build the jar file (service-registry-in-eureka.jar)
 
 step 2:
 
 build the image
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker build -t explorejava/post-service .
-
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker build -t explorejava/service-registry-in-eureka .
 
                  or
 
@@ -23,7 +22,7 @@ docker images
 to remove the images
 
 
-docker rmi explorejava/post-service
+docker rmi explorejava/service-registry-in-eureka
 
 clean up unused images
 
@@ -35,7 +34,7 @@ docker system prune -a
 
 Step 3: run the docker compose as a background process
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker-compose up -d
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker-compose up -d
 
 check the running containers
 
@@ -54,36 +53,18 @@ to stop above ctrl+c
 
 Step 4: to stop the docker compose
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker-compose down
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker-compose down
 
 docker-compose down --rmi all -v --remove-orphans
 
-
-docker exec -it post-service curl http://post-config-server:8088
-
+docker network rm -f shared-network
 
 docker logs post-config-server
 
+docker-compose logs -f service-registry-in-eureka
 
-to see the logs of mysql
+docker exec -it service-registry-in-eureka curl http://post-config-server:8088
 
-docker logs content-mysql
+Check Exposed Ports:
 
-
-docker exec -it content-service \
-mysql -hcontent-mysql -uroot -proot -e "SHOW DATABASES;"
-
-
-docker volume prune
-
-
-docker volume ls
-
-docker volume prune -a 
-
-
-
-
-
-
-
+docker ps --format "table {{.Names}}\t{{.Ports}}"

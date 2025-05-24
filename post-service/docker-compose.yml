@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # MySQL Database for content-service
+  posts-mysql:
+    image: mysql:8.0
+    container_name: posts-mysql
+    hostname: posts-mysql
+    environment:
+      #MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: posts_db
+      #MYSQL_USER: root
+      #MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      #- ./posts-data:/var/lib/mysql
+      - ./src/main/resources/data/posts.sql:/docker-entrypoint-initdb.d/posts.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 30s
+      retries: 10
+      interval: 10s
+      start_period: 90s  # Give MySQL more time for initial setup
+    networks:
+      - shared-network
+  post-service:
+    build: .
+    container_name: post-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_CONFIG_IMPORT: "configserver:http://post-config-server:8088"
+      SPRING_CLOUD_CONFIG_URI: http://post-config-server:8088
+      SPRING_APPLICATION_NAME: post-service
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry-in-eureka:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://posts-mysql:3306/posts_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: com.mysql.cj.jdbc.Driver
+      # JPA/Hibernate settings
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
+    depends_on:
+      posts-mysql:
+        condition: service_healthy
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
+

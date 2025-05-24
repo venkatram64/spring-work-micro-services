@@ -2,7 +2,7 @@ spring:
   application:
     name: service-registry-in-eureka
   config:
-    import: 'optional:configserver:http://localhost:8088'
+    import: 'optional:configserver:http://post-config-server:8088'
 
 server:
   port: 8761

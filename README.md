@@ -1,123 +1,46 @@
 Note: config server with git repo  is added in this branch and reactjs frontend app is also added
 
-config github url: https://github.com/venkatram64/my-config-server-data-in-git
+config github url: https://github.com/venkatram64/my-ms-centralized-config.git
 
 please map in hosts file  
 On Linux/Mac: /etc/hosts
 On Windows: C:\Windows\System32\drivers\etc\hosts
 127.0.0.1 content-service
 127.0.0.1 post-service
+127.0.0.1 zipkin-server
+
+This entire application is dockerized and configuration is done using config server with git repo
 
 order of starting services:
-1. post-config-server
-2. service-registry-in-eureka
-3. post-service
-4. content-service
-5. post-api-gateway-service
-6. zipkin, to see the logs start the docker-compose.yml this is for to see the logs
+1. zipkin, to see the logs start the docker-compose.yml this is for to see the logs
+2. follow the steps in post-config-server' s README.md 
+3. follow the steps in service-registry-in-eureka' s README.md
+4. follow the steps in post-service' s README.md
+5. follow the steps in content-service' s README.md
+6. follow the steps in post-api-gateway-service' s README.md
 7. run the my-post-react-app to test from front end
 
 this is the complete application
 
 included features are spring security and two microservices post-service and content service
 
-to see the services in eureka goto --> http://localhost:8761/
-
-to see the logs in zipkin goto --> http://localhost:9411/
-
-Steps create following two tables
-
-step 1: create database schema as "db_posts_new" in mysql workbench or
-CREATE SCHEMA `db_posts_new` ;
-
-step 2: in above schema create following tables
-
-CREATE TABLE Users (
-id INT NOT NULL AUTO_INCREMENT,
-first_name VARCHAR(50) NOT NULL,
-last_name VARCHAR(50) NOT NULL,
-email VARCHAR(100) UNIQUE NOT NULL,
-password VARCHAR(255) NOT NULL,
-role VARCHAR(255) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY (id)
-);
-
-step 3:
-
-CREATE TABLE Posts (
-id INT NOT NULL AUTO_INCREMENT,
-user_id INT NOT NULL,
-title VARCHAR(50) NOT NULL,
-body VARCHAR(255) NOT NULL,
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY (id),
-FOREIGN KEY (user_id) REFERENCES Users(id)
-);
-
--------------------------------
-Now we are accessing with the api gateway port/gateway server name
-step 1:
-
-to create the user
-POST:
-http://localhost:8060/api/auth/register
-
-{
-"firstName": "Srijan",
-"lastName": "Srijan",
-"email": "srijan.srijan@gmail.com",
-"password":"1234"
-}
-
-returns the JWT token
 
 
-step 2: to login or authenticate
-POST:
-http://localhost:8060/api/auth/authenticate
 
-{
-"email":"srijan.srijan@gmail.com",
-"password": "12345"
-}
+# Windows:
+netstat -ano | findstr :3307
+taskkill /PID <PID> /F
 
-return the token
 
-step 3:
+# Clean up Docker resources
+docker system prune -a
+docker volume prune
 
-take the token add it as bearer token in "Authorization" tab in postman
+For Windows WSL2 users:
+wsl --shutdown
 
-eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzcmlqYW4udmVlcmFyZWRkeUBnbWFpbC5jb20iLCJpYXQiOjE3MDMyMzYzNjIsImV4cCI6MTcwMzI3MjM2Mn0.tXh2wU_gWx04oI0Wjqc-648TOyTk5kEQ-1o5zEVClhs
-take the user id form Users table
+create a network
 
-POST
-http://localhost:8060/api/content/posts
-{
-"userId":12,
-"title": "Core Java ariticle",
-"body": "this is the post talks about core java features"
-}
+docker network create shared-network
 
-step 4: update
-
-PUT
-http://localhost:8060/api/content/posts
-{
-"userId":12,
-"title": "Core Java article",
-"body": "this is the post talks about core java features"
-}
-
-step 5: delete
-DELETE
-
-http://localhost:8060/api/content/posts/4
-
-step 6: 
-
-GET
-localhost:8060/api/content/posts/1
 

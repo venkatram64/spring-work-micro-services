@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  post-config-server:
+    build: .
+    container_name: post-config-server
+    ports:
+      - "8088:8088"
+    environment:
+      SPRING_PROFILES_ACTIVE: git
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/venkatram64/my-ms-centralized-config.git
+      SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH-PATHS: config
+      SPRING_CLOUD_CONFIG_SERVER_GIT_CLONE_ON_START: 'true'
+      SPRING_CLOUD_CONFIG_SERVER_GIT_FORCE_PULL: 'true'
+    networks:
+      shared-network:
+
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8088/actuator/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+networks:
+  shared-network:
+    external: true
