@@ -12,7 +12,7 @@ On Windows: C:\Windows\System32\drivers\etc\hosts
 This entire application is dockerized and configuration is done using config server with git repo
 
 order of starting services:
-0: create a network
+0. create a network
    docker network create shared-network
 1. zipkin, to see the logs start the docker-compose.yml this is for to see the logs
 2. follow the steps in post-config-server' s README.md 
