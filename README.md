@@ -22,7 +22,9 @@ order of starting services:
       to see the logs
    docker-compose logs -f
 
-2. follow the steps in post-config-server' s README.md 
+2. follow the steps in post-config-server' s README.md  
+
+    --OR--
 
    clean the maven
    mvn clean
@@ -34,7 +36,7 @@ order of starting services:
    docker-compose down
    to see the logs
    docker-compose logs -f
-follow the same steps for below ones
+follow the same steps for below ones too
 
 3. follow the steps in service-registry-in-eureka' s README.md
 4. follow the steps in post-service' s README.md
