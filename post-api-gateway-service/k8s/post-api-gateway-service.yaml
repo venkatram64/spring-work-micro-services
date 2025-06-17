@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: post-api-gateway-deploy
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: post-api-gateway-service-app
+  template:
+    metadata:
+      labels:
+        app: post-api-gateway-service-app
+    spec:
+      containers:
+        - name: post-api-gateway-img
+          image: explorejava/post-api-gateway-service
+          ports:
+            - containerPort: 8060
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: "optional:configserver:http://post-config-server:8088"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://post-config-server:8088"
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: "http://service-registry-in-eureka:8761/eureka"
+      restartPolicy: Always # Equivalent to 'unless-stopped'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-api-gateway-service
+spec:
+  type: ClusterIP
+  selector:
+    app: post-api-gateway-service-app
+  ports:
+    - protocol: TCP
+      port: 8060
+      targetPort: 8060

@@ -7,11 +7,9 @@ build the image
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker build -t explorejava/service-registry-in-eureka .
 
-                 or
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker push explorejava/service-registry-in-eureka
 
-rebuild the images before starting the docker compose
 
-docker-compose up -d --build
 
 docker the images
 

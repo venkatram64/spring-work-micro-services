@@ -1,0 +1,83 @@
+# MySQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-mysql-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts-mysql-db
+  template:
+    metadata:
+      labels:
+        app: posts-mysql-db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root"
+            - name: MYSQL_DATABASE
+              value: "posts_db"
+            - name: MYSQL_ROOT_HOST
+              value: "%"  # Allow root access from any host
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d/
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 30
+            failureThreshold: 10
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 30
+            failureThreshold: 10
+      volumes:
+        - name: init-sql
+          configMap:
+            name: mysql-init-sql
+
+---
+# MySQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-mysql
+spec:
+  type: ClusterIP
+  selector:
+    app: posts-mysql-db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+
+---
+# ConfigMap for MySQL initialization script
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-sql
+data:
+  posts.sql: |
+    CREATE DATABASE IF NOT EXISTS `posts_db`;
+    USE `posts_db`;      
+    CREATE TABLE IF NOT EXISTS posts (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    title VARCHAR(50) NOT NULL,
+    body VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+    );

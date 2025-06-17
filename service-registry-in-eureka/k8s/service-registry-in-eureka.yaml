@@ -1,0 +1,51 @@
+# Eureka Server Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-registry-in-eureka-deploy
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: service-registry-in-eureka-app
+  template:
+    metadata:
+      labels:
+        app: service-registry-in-eureka-app
+    spec:
+      containers:
+        - name: service-registry-in-eureka-img
+          image: explorejava/service-registry-in-eureka
+          ports:
+            - containerPort: 8761
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              value: "optional:configserver:http://post-config-server:8088"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://post-config-server:8088"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "false"
+            - name: SPRING_CLOUD_CONFIG_RETRY_ENABLED
+              value: "true"
+            - name: SPRING_CLOUD_CONFIG_RETRY_MAX_ATTEMPTS
+              value: "6"
+            - name: SPRING_CLOUD_CONFIG_RETRY_INITIAL_INTERVAL
+              value: "3000"
+      restartPolicy: Always # Equivalent to 'unless-stopped'
+
+---
+# Eureka Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-registry-in-eureka
+spec:
+  type: ClusterIP
+  selector:
+    app: service-registry-in-eureka-app
+  ports:
+    - protocol: TCP
+      port: 8761
+      targetPort: 8761

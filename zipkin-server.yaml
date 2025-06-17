@@ -1,0 +1,52 @@
+# Zipkin Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipkin-server-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zipkin-server-app
+      component: distributed-tracing
+  template:
+    metadata:
+      labels:
+        app: zipkin-server-app
+        component: distributed-tracing
+    spec:
+      containers:
+        - name: zipkin
+          image: openzipkin/zipkin:latest
+          ports:
+            - containerPort: 9411
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9411
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9411
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+---
+# Zipkin Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipkin-server
+  labels:
+    app: zipkin-server-app
+    component: distributed-tracing
+spec:
+  type: ClusterIP
+  selector:
+    app: zipkin-server-app
+  ports:
+    - protocol: TCP
+      port: 9411
+      targetPort: 9411

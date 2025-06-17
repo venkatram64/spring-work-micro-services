@@ -7,12 +7,8 @@ build the image
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker build -t explorejava/content-service .
 
-
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker push explorejava/content-serevice
                  or
-
-rebuild the images before starting the docker compose
-
-docker-compose up -d --build
 
 docker the images
 

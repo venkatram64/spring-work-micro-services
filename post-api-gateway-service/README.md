@@ -5,3 +5,11 @@ step 2:
 build the image
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker build -t explorejava/post-api-gateway-service .
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker push  explorejava/post-api-gateway-service
+
+to see the images
+
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker images
