@@ -18,14 +18,19 @@ order of starting services:
     to start the deployment
 
    PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl apply -f .\zipkin-server.yaml
+
    deployment.apps/zipkin-server-deploy created
+
    service/zipkin-server created
 
    to stop the deployment.
 
    PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl delete -f .\zipkin-server.yaml
+
    deployment.apps "zipkin-server-deploy" deleted
+
    service "zipkin-server" deleted
+
    PS D:\MyProjects\MyWork\spring-work-micro-services>
 
 
@@ -45,13 +50,17 @@ order of starting services:
 To start the deployment
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server\k8s> kubectl apply -f .\post-config-server.yaml
+
 deployment.apps/post-config-server-deploy created
+
 service/post-config-server created
 
 to stop the deployment
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server\k8s> kubectl delete -f .\post-config-server.yaml
+
 deployment.apps "post-config-server-deploy" deleted
+
 service "post-config-server" deleted
 
 
@@ -60,34 +69,51 @@ service "post-config-server" deleted
 To start the deployment
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka\k8s> kubectl apply -f .\service-registry-in-eureka.yaml
+
 deployment.apps/service-registry-in-eureka-deploy created
+
 service/service-registry-in-eureka created
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka\k8s>
 
 to stop the deployment
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka\k8s> kubectl delete -f .\service-registry-in-eureka.yaml
+
 deployment.apps "service-registry-in-eureka-deploy" deleted
+
 service "service-registry-in-eureka" deleted
 
 
 4. follow the steps in post-service' s README.md
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-service\k8s> kubectl apply -f .
+
 deployment.apps/posts-mysql-deploy created
+
 service/posts-mysql created
+
 configmap/mysql-init-sql created
+
 deployment.apps/post-service-deploy created
+
 service/post-service created
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-service\k8s>
 
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> kubectl delete -f .\k8s\
+
 deployment.apps "posts-mysql-deploy" deleted
+
 service "posts-mysql" deleted
+
 configmap "mysql-init-sql" deleted
+
 deployment.apps "post-service-deploy" deleted
+
 service "post-service" deleted
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-service>
 
 
@@ -95,43 +121,64 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\post-service>
 5. follow the steps in content-service' s README.md
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\content-service\k8s> kubectl apply -f .
+
 deployment.apps/content-mysql-deploy created
+
 configmap/mysql-init-sql configured
+
 service/content-mysql created
+
 deployment.apps/content-service-deploy created
+
 service/content-service created
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\content-service\k8s>
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\content-service\k8s> kubectl delete -f .
+
 deployment.apps "content-mysql-deploy" deleted
+
 configmap "mysql-init-sql" deleted
+
 service "content-mysql" deleted
+
 deployment.apps "content-service-deploy" deleted
+
 service "content-service" deleted
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\content-service\k8s>
 
 6. follow the steps in post-api-gateway-service' s README.md
 
    PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service\k8s> kubectl apply -f .\post-api-gateway-service.yaml
+
    deployment.apps/post-api-gateway-deploy created
+ 
    service/post-api-gateway-service created
+
    PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service\k8s>
 
    PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service\k8s> kubectl delete -f .\post-api-gateway-service.yaml
+ 
    deployment.apps "post-api-gateway-deploy" deleted
+ 
    service "post-api-gateway-service" deleted   
 -----------------------------------------------------------------------
 
 PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl port-forward service/service-registry-in-eureka 8761:8761
+
 Forwarding from 127.0.0.1:8761 -> 8761
+
 Forwarding from [::1]:8761 -> 8761
+
 Handling connection for 8761
+
 Handling connection for 8761
+
 Handling connection for 8761
 
 
 
-http://localhost:8761/
 
 
 -----------------------------
