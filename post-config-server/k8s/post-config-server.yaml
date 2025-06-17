@@ -49,11 +49,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: post-config-server
+  name: post-config-server  # this service name is used in other microservices yaml files
 spec:
   type: ClusterIP
   selector:
-    app: post-config-server-app
+    app: post-config-server-app  # this selector is used in above template
   ports:
     - protocol: TCP
       port: 8088

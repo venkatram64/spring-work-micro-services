@@ -75,7 +75,7 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: content-mysql
+  name: content-mysql  # Service name used in content-service.yaml to access the MySQL database
 spec:
   type: ClusterIP
   selector:

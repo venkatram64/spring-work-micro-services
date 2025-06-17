@@ -40,11 +40,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-registry-in-eureka
+  name: service-registry-in-eureka   # service name name is used in other microservices to register
 spec:
   type: ClusterIP
   selector:
-    app: service-registry-in-eureka-app
+    app: service-registry-in-eureka-app  # this is used in above deployment
   ports:
     - protocol: TCP
       port: 8761
