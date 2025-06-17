@@ -141,48 +141,83 @@ see below all the services are started
 PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl get all
 
 NAME                                                     READY   STATUS    RESTARTS        AGE
+
 pod/content-mysql-deploy-6f9dfc7fc5-8gx8h                1/1     Running   0               6h50m
+
 pod/content-service-deploy-685dffd9b8-fj85x              1/1     Running   1 (6h48m ago)   6h50m
+
 pod/post-api-gateway-deploy-7856d766df-7nj66             1/1     Running   0               49s
+
 pod/post-config-server-deploy-b95895df7-rrz4m            1/1     Running   0               7h27m
+
 pod/post-service-deploy-57d7dbbf5f-5gvv8                 1/1     Running   1 (6h49m ago)   6h50m
+
 pod/posts-mysql-deploy-7c7cb99655-xjcsf                  1/1     Running   0               6h50m
+
 pod/service-registry-in-eureka-deploy-54d84cc67d-cmdp2   1/1     Running   0               6h51m
+
 pod/zipkin-server-deploy-94664865d-nqpmz                 1/1     Running   0               6h52m
 
 
 NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+
 service/content-mysql                ClusterIP   10.96.72.193    <none>        3306/TCP   6h50m
+
 service/content-service              ClusterIP   10.96.109.54    <none>        8082/TCP   6h50m
+
 service/kubernetes                   ClusterIP   10.96.0.1       <none>        443/TCP    3d4h
+
 service/post-api-gateway-service     ClusterIP   10.96.112.229   <none>        8060/TCP   49s
+
 service/post-config-server           ClusterIP   10.96.164.151   <none>        8088/TCP   7h27m
+
 service/post-service                 ClusterIP   10.96.254.149   <none>        8081/TCP   6h50m
+
 service/posts-mysql                  ClusterIP   10.96.153.175   <none>        3306/TCP   6h50m
+
 service/service-registry-in-eureka   ClusterIP   10.96.63.233    <none>        8761/TCP   6h51m
+
 service/zipkin-server                ClusterIP   10.96.132.15    <none>        9411/TCP   6h52m
 
 
 NAME                                                READY   UP-TO-DATE   AVAILABLE   AGE
+
 deployment.apps/content-mysql-deploy                1/1     1            1           6h50m
+
 deployment.apps/content-service-deploy              1/1     1            1           6h50m
+
 deployment.apps/post-api-gateway-deploy             1/1     1            1           49s
+
 deployment.apps/post-config-server-deploy           1/1     1            1           7h27m
+
 deployment.apps/post-service-deploy                 1/1     1            1           6h50m
+
 deployment.apps/posts-mysql-deploy                  1/1     1            1           6h50m
+
 deployment.apps/service-registry-in-eureka-deploy   1/1     1            1           6h51m
+
 deployment.apps/zipkin-server-deploy                1/1     1            1           6h52m
 
 
 NAME                                                           DESIRED   CURRENT   READY   AGE
+
 replicaset.apps/content-mysql-deploy-6f9dfc7fc5                1         1         1       6h50m
+
 replicaset.apps/content-service-deploy-685dffd9b8              1         1         1       6h50m
+
 replicaset.apps/post-api-gateway-deploy-7856d766df             1         1         1       49s
+
 replicaset.apps/post-config-server-deploy-b95895df7            1         1         1       7h27m
+
 replicaset.apps/post-service-deploy-57d7dbbf5f                 1         1         1       6h50m
+
 replicaset.apps/posts-mysql-deploy-7c7cb99655                  1         1         1       6h50m
+
 replicaset.apps/service-registry-in-eureka-deploy-54d84cc67d   1         1         1       6h51m
+
 replicaset.apps/zipkin-server-deploy-94664865d                 1         1         1       6h52m
+
+
 PS D:\MyProjects\MyWork\spring-work-micro-services>
 
 
