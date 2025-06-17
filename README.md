@@ -16,11 +16,13 @@ order of starting services:
 1. zipkin, to see the logs start the zipkin-server.yaml 
 
     to start the deployment
+
    PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl apply -f .\zipkin-server.yaml
    deployment.apps/zipkin-server-deploy created
    service/zipkin-server created
 
    to stop the deployment.
+
    PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl delete -f .\zipkin-server.yaml
    deployment.apps "zipkin-server-deploy" deleted
    service "zipkin-server" deleted
@@ -28,6 +30,7 @@ order of starting services:
 
 
    to see the logs
+
    PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl logs pod/zipkin-server-deploy-94664865d-cnhcb
 
 2. follow the steps in post-config-server' s README.md  
@@ -40,6 +43,7 @@ order of starting services:
    Dockerfile which will build the image
 
 To start the deployment
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server\k8s> kubectl apply -f .\post-config-server.yaml
 deployment.apps/post-config-server-deploy created
 service/post-config-server created
@@ -52,7 +56,9 @@ service "post-config-server" deleted
 
 
 3. follow the steps in service-registry-in-eureka' s README.md
+
 To start the deployment
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka\k8s> kubectl apply -f .\service-registry-in-eureka.yaml
 deployment.apps/service-registry-in-eureka-deploy created
 service/service-registry-in-eureka created
@@ -133,6 +139,7 @@ http://localhost:8761/
 see below all the services are started
 
 PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl get all
+
 NAME                                                     READY   STATUS    RESTARTS        AGE
 pod/content-mysql-deploy-6f9dfc7fc5-8gx8h                1/1     Running   0               6h50m
 pod/content-service-deploy-685dffd9b8-fj85x              1/1     Running   1 (6h48m ago)   6h50m
@@ -142,6 +149,7 @@ pod/post-service-deploy-57d7dbbf5f-5gvv8                 1/1     Running   1 (6h
 pod/posts-mysql-deploy-7c7cb99655-xjcsf                  1/1     Running   0               6h50m
 pod/service-registry-in-eureka-deploy-54d84cc67d-cmdp2   1/1     Running   0               6h51m
 pod/zipkin-server-deploy-94664865d-nqpmz                 1/1     Running   0               6h52m
+
 
 NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
 service/content-mysql                ClusterIP   10.96.72.193    <none>        3306/TCP   6h50m
@@ -154,6 +162,7 @@ service/posts-mysql                  ClusterIP   10.96.153.175   <none>        3
 service/service-registry-in-eureka   ClusterIP   10.96.63.233    <none>        8761/TCP   6h51m
 service/zipkin-server                ClusterIP   10.96.132.15    <none>        9411/TCP   6h52m
 
+
 NAME                                                READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/content-mysql-deploy                1/1     1            1           6h50m
 deployment.apps/content-service-deploy              1/1     1            1           6h50m
@@ -163,6 +172,7 @@ deployment.apps/post-service-deploy                 1/1     1            1      
 deployment.apps/posts-mysql-deploy                  1/1     1            1           6h50m
 deployment.apps/service-registry-in-eureka-deploy   1/1     1            1           6h51m
 deployment.apps/zipkin-server-deploy                1/1     1            1           6h52m
+
 
 NAME                                                           DESIRED   CURRENT   READY   AGE
 replicaset.apps/content-mysql-deploy-6f9dfc7fc5                1         1         1       6h50m
@@ -174,6 +184,7 @@ replicaset.apps/posts-mysql-deploy-7c7cb99655                  1         1      
 replicaset.apps/service-registry-in-eureka-deploy-54d84cc67d   1         1         1       6h51m
 replicaset.apps/zipkin-server-deploy-94664865d                 1         1         1       6h52m
 PS D:\MyProjects\MyWork\spring-work-micro-services>
+
 
 ---------------------------------------------------------
 
