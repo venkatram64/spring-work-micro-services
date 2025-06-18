@@ -38,7 +38,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zipkin-server  # this name is referenced in other posts and content microservices
+  name: zipkin-server  # this name is referenced in other post-service and content-service microservices
   labels:
     app: zipkin-server-app
     component: distributed-tracing
