@@ -91,3 +91,17 @@ added emment in settings
 to start the application
 
 npm run start
+
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED      STATUS        PORTS                                                                   NAMES
+ee58ba160750   kindest/node:v1.32.2   "/usr/local/bin/entr…"   4 days ago   Up 23 hours   0.0.0.0:443->443/tcp, 0.0.0.0:8080->80/tcp, 127.0.0.1:58514->6443/tcp   dev-cluster-control-plane
+013539776d84   kindest/node:v1.32.2   "/usr/local/bin/entr…"   4 days ago   Up 23 hours                                                                           dev-cluster-worker2
+561e08de0fd4   kindest/node:v1.32.2   "/usr/local/bin/entr…"   4 days ago   Up 23 hours                                                                           dev-cluster-worker
+PS D:\MyProjects\MyWork\spring-work-micro-services>
+
+
+see the PORTS section, localhost/0.0.0.0:8080 so I used in .env file 
+REACT_APP_API_URL='http://localhost:8080/'
+
