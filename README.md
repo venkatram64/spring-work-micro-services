@@ -271,7 +271,7 @@ replicaset.apps/zipkin-server-deploy-94664865d                 1         1      
 
 
 PS D:\MyProjects\MyWork\spring-work-micro-services>
-
+--------------------------------
 
 PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl get ingress
 NAME              CLASS    HOSTS   ADDRESS     PORTS   AGE
