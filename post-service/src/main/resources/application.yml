@@ -1,7 +1,13 @@
 spring:
+  profiles:
+    active: local
   application:
     name: post-service
   config:
     import: 'optional:configserver:http://post-config-server:8088'
 
 
+#logging:
+#  level:
+#    org.springframework: DEBUG
+#    org.springframework.cloud: TRACE

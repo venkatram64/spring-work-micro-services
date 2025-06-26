@@ -3,6 +3,8 @@
   #level:
     #org.springframework.security=TRACE
 spring:
+  profiles:
+    active: local
   application:
     name: content-service
   config:

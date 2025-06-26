@@ -1,6 +1,8 @@
 server:
   port: 8088
 spring:
+  profiles:
+    active: local
   application:
     name: post-config-server  # Must match the config file name in Git
   cloud:
@@ -9,7 +11,11 @@ spring:
         git:
           uri: ${GIT_REPO_URI:https://github.com/venkatram64/k8s-ms-cntralized-config.git}  # Replace with your Git repo URL
           default-label: ${GIT_DEFAULT_BRANCH:main}  # Specify your default branch
-          search-paths: config
+          search-paths:
+            - config/{application}
+            - config
+          basedir: /tmp/config-repo  # Explicit working directory
+          force-pull: true
           clone-on-start: true
       #uri: ${CONFIG_SERVER_URI:http://localhost:8088}  # Fallback for self-bootstrap
       #fail-fast: true
@@ -20,7 +26,7 @@ spring:
     ansi:
       enabled: always
 
-#logging:
-  #level:
-    #org.springframework.cloud.config.server: DEBUG
-    #org.eclipse.jgit: DEBUG
+logging:
+  level:
+    org.springframework.cloud.config.server: DEBUG
+    org.eclipse.jgit: DEBUG
