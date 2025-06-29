@@ -7,6 +7,13 @@ build the image
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker build -t explorejava/service-registry-in-eureka .
 
+step 3: login to docker hub
+docker login
+
+step 4: push the image to docker hub
+
+docker push explorejava/service-registry-in-eureka
+
                  or
 
 rebuild the images before starting the docker compose

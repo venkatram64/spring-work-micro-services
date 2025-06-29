@@ -91,3 +91,19 @@ added emment in settings
 to start the application
 
 npm run start
+
+-------------------------------------
+
+
+Dockerfile
+
+step 1:
+docker build -t explorejava/my-post-react-app:latest .
+
+step 2:
+docker login
+
+step 3:
+docker push explorejava/my-post-react-app:latest
+
+

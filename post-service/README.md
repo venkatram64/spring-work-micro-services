@@ -7,14 +7,20 @@ build the image
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker build -t explorejava/post-service .
 
+step 3: login to docker hub
 
+docker login
+
+step 4: push the image to docker hub
+
+docker push explorejava/post-service
                  or
 
 rebuild the images before starting the docker compose
 
 docker-compose up -d --build
 
-docker the images
+to see docker images
 
 docker images
 
