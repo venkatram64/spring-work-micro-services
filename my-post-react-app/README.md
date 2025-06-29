@@ -105,3 +105,15 @@ PS D:\MyProjects\MyWork\spring-work-micro-services>
 see the PORTS section, localhost/0.0.0.0:8080 so I used in .env file 
 REACT_APP_API_URL='http://localhost:8080/'
 
+---------------------
+
+Dockerfile
+
+step 1:
+docker build -t explorejava/my-post-react-app:latest .
+
+step 2:
+docker login
+
+step 3:
+docker push explorejava/my-post-react-app:latest
