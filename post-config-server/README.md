@@ -27,7 +27,7 @@ maven package, which will build the jar file (post-config-server.jar)
 Step 2:
 build the image
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server> docker build -t explorejava/post-config-service .
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server> docker build -t explorejava/post-config-server .
 
 step 3: to login to docker hub
 
@@ -35,7 +35,7 @@ docker login
 
 step 4: to push the image into docker hub
 
-docker push explorejava/post-config-service
+docker push explorejava/post-config-server
 
                  or
 
