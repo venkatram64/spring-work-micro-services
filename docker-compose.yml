@@ -1,3 +1,4 @@
+#this is for local development
 services:
   zipkin:
     image: 'openzipkin/zipkin:latest'

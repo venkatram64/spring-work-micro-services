@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: content-service-img
-          image: explorejava/content-service  #image is built by Dockerfile
+          image: explorejava/content-service:latest  #image is built by Dockerfile
           ports:
             - containerPort: 8082
           env:

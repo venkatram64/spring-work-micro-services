@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: post-config-server-img
-          image: explorejava/post-config-service
+          image: explorejava/post-config-service:latest
           ports:
             - containerPort: 8088
           env:
