@@ -11,8 +11,8 @@ services:
     environment:
       - NODE_ENV=production
     networks:
-      - frontend-network
+      - shared-network
 
 networks:
-  frontend-network:
+  shared-network:
     driver: bridge

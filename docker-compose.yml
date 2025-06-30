@@ -11,3 +11,7 @@ services:
 networks:
   shared-network:
     external: true
+
+
+  #create a network, this is must
+  #docker network create shared-network
