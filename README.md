@@ -1,4 +1,4 @@
-Note: config server with git repo  is added in this branch and reactjs frontend app is also added
+Note: config server with git repo is added in this branch and reactjs frontend app is also added
 
 config github url: https://github.com/venkatram64/k8s-ms-centralized-config.git
 
@@ -6,8 +6,10 @@ please map in hosts file
 On Linux/Mac: /etc/hosts
 On Windows: C:\Windows\System32\drivers\etc\hosts
 127.0.0.1 content-service
+127.0.0.1 post-config-server
 127.0.0.1 post-service
 127.0.0.1 zipkin-server
+127.0.0.1 post-api-gateway-service
 
 This entire application is dockerized and configuration is done using config server with git repo
 
