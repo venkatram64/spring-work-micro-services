@@ -1,12 +1,16 @@
 Step 1: maven package, which will build the jar file (post-api-gateway-service.jar)
 
+mvn clean install -Dspring.profiles.active=dev  (not for local)
+
 step 2:
 
 build the image
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker build -t explorejava/post-api-gateway-service .
+below one is for my local kubernetes deployment
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker build -t explorejava/post-api-gateway-service:latest .
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker push  explorejava/post-api-gateway-service
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-api-gateway-service> docker push explorejava/post-api-gateway-service:latest
+
 
 to see the images
 

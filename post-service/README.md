@@ -1,15 +1,17 @@
 
 Step 1: maven package, which will build the jar file (post-service.jar)
 
+mvn clean install -Dspring.profiles.active=dev  (not for local)
+
 step 2:
 
 build the image
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker build -t explorejava/post-service .
+below one is for my local kubernetes deployment
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker push explorejava/post-service
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker build -t explorejava/post-service:latest .
 
-
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker push explorejava/post-service:latest
 
 docker the images
 

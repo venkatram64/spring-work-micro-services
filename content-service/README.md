@@ -1,13 +1,17 @@
 
 Step 1: maven package, which will build the jar file (content-service.jar)
 
+mvn clean install -Dspring.profiles.active=dev  (not for local)
+
 step 2:
 
 build the image
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker build -t explorejava/content-service .
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker push explorejava/content-serevice
+below one is for my local kubernetes deployment
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker build -t explorejava/content-service:latest .
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker push explorejava/content-serevice:latest
                  or
 
 docker the images
