@@ -11,8 +11,6 @@ spring:
           default-label: ${GIT_DEFAULT_BRANCH:main}  # Specify your default branch
           search-paths: config
           clone-on-start: true
-      #uri: ${CONFIG_SERVER_URI:http://localhost:8088}  # Fallback for self-bootstrap
-      #fail-fast: true
       retry:
         initial-interval: 3000
         max-attempts: 5
