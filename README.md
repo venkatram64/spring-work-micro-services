@@ -1,3 +1,19 @@
+check first:
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS        PORTS                                                                   NAMES
+ee58ba160750   kindest/node:v1.32.2   "/usr/local/bin/entr…"   2 weeks ago   Up 23 hours   0.0.0.0:443->443/tcp, 0.0.0.0:8080->80/tcp, 127.0.0.1:58514->6443/tcp   dev-cluster-control-plane
+013539776d84   kindest/node:v1.32.2   "/usr/local/bin/entr…"   2 weeks ago   Up 23 hours                                                                           dev-cluster-worker2
+561e08de0fd4   kindest/node:v1.32.2   "/usr/local/bin/entr…"   2 weeks ago   Up 23 hours  
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl get nodes
+NAME                        STATUS   ROLES           AGE   VERSION
+dev-cluster-control-plane   Ready    control-plane   16d   v1.32.2
+dev-cluster-worker          Ready    <none>          16d   v1.32.2
+dev-cluster-worker2         Ready    <none>          16d   v1.32.2
+PS D:\MyProjects\MyWork\spring-work-micro-services>
+
+
 Note: config server with git repo is added in this branch and reactjs frontend app is also added
 
 config github url: https://github.com/venkatram64/k8s-ms-centralized-config.git
@@ -14,6 +30,9 @@ On Windows: C:\Windows\System32\drivers\etc\hosts
 This entire application is dockerized and configuration is done using config server with git repo
 
 order of starting services:
+
+docker network create shared-network
+
 
 1. zipkin, to see the logs start the zipkin-server.yaml 
 

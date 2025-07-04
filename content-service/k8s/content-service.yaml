@@ -4,6 +4,8 @@ metadata:
   name: content-service-deploy
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: content-service-app
@@ -12,52 +14,102 @@ spec:
       labels:
         app: content-service-app
     spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox:1.28
+          command: ['sh', '-c', 'until nc -z content-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done;']
       containers:
         - name: content-service-img
-          image: explorejava/content-service:latest  #image is built by Dockerfile
+          image: explorejava/content-service:latest
           ports:
             - containerPort: 8082
           env:
             - name: SPRING_CONFIG_IMPORT
-              value: "configserver:http://post-config-server:8088"
+              value: "optional:configserver:http://post-config-server:8088"
             - name: SPRING_CLOUD_CONFIG_URI
               value: "http://post-config-server:8088"
+            - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+              value: "false"
             - name: SPRING_APPLICATION_NAME
               value: "content-service"
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-              value: "http://service-registry-in-eureka:8761/eureka"
+            - name: SPRING_CLOUD_CONFIG_ENABLED
+              value: "true"
+            # Eureka Configuration
+#            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE
+#              value: "http://service-registry-in-eureka:8761/eureka/"
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -Deureka.client.service-url.defaultZone=http://service-registry-in-eureka:8761/eureka/
+            - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
+              value: "true"
+            - name: EUREKA_CLIENT_FETCH_REGISTRY
+              value: "true"
+#            - name: EUREKA_INSTANCE_PREFER_IP_ADDRESS
+#              value: "false"
+#            - name: EUREKA_INSTANCE_HOSTNAME
+#              value: "content-service"
+            - name: EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS
+              value: "10"
+            # Database Configuration
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://content-mysql:3306/content_db?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10"
+              value: "jdbc:mysql://content-mysql:3306/content_db?useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true&connectionTimeZone=UTC"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
               value: "root"
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: "com.mysql.cj.jdbc.Driver"
+            - name: SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT
+              value: "30000"
+            - name: SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE
+              value: "5"
+            - name: SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT
+              value: "600000"
+            - name: SPRING_DATASOURCE_HIKARI_MAX_LIFETIME
+              value: "1800000"
+            # JPA Configuration
             - name: SPRING_JPA_SHOW_SQL
               value: "true"
             - name: SPRING_JPA_DATABASE_PLATFORM
-              value: "org.hibernate.dialect.MySQLDialect"
+              value: "org.hibernate.dialect.MySQL8Dialect"
             - name: SPRING_JPA_HIBERNATE_DDL_AUTO
               value: "none"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+              value: "true"
+            # Tracing & Monitoring
             - name: MANAGEMENT_TRACING_ENABLED
               value: "true"
-            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-              value: "com.mysql.cj.jdbc.Driver"
             - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
               value: "http://zipkin-server:9411/api/v2/spans"
-            - name: MANAGEMENT_ZIPKIN_TRACING_ENABLED
-              value: "true"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info,prometheus"
+            # Profile
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8082
-            initialDelaySeconds: 60
-            periodSeconds: 10
+            initialDelaySeconds: 90
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8082
             initialDelaySeconds: 30
-            periodSeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
 ---
 apiVersion: v1
 kind: Service

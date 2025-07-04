@@ -4,6 +4,8 @@ metadata:
   name: post-config-server-deploy
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: post-config-server-app
@@ -22,38 +24,55 @@ spec:
               value: "git"
             - name: SPRING_CLOUD_CONFIG_SERVER_GIT_URI
               value: "https://github.com/venkatram64/k8s-ms-cntralized-config.git"
-            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH-PATHS
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_SEARCH_PATHS
               value: "config"
             - name: SPRING_CLOUD_CONFIG_SERVER_GIT_CLONE_ON_START
               value: "true"
             - name: SPRING_CLOUD_CONFIG_SERVER_GIT_FORCE_PULL
               value: "true"
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL
+              value: "main"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info,env"
+            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS
+              value: "always"
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_TIMEOUT
+              value: "10"
+            - name: SPRING_CLOUD_CONFIG_SERVER_GIT_REFRESH_RATE
+              value: "30"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8088
-            initialDelaySeconds: 40
+            initialDelaySeconds: 60
             periodSeconds: 30
             timeoutSeconds: 10
-            failureThreshold: 5
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /actuator/health
               port: 8088
-            initialDelaySeconds: 40
-            periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 5
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: post-config-server  # this service name is used in other microservices yaml files
+  name: post-config-server
 spec:
   type: ClusterIP
   selector:
-    app: post-config-server-app  # this selector is used in above template
+    app: post-config-server-app
   ports:
     - protocol: TCP
       port: 8088

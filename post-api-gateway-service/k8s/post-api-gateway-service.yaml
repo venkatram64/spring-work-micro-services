@@ -24,8 +24,13 @@ spec:
               value: "optional:configserver:http://post-config-server:8088"
             - name: SPRING_CLOUD_CONFIG_URI
               value: "http://post-config-server:8088"
-            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
-              value: "http://service-registry-in-eureka:8761/eureka"
+#            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE
+#              value: "http://service-registry-in-eureka:8761/eureka/"
+            - name: JAVA_TOOL_OPTIONS
+              value: >-
+                -Deureka.client.service-url.defaultZone=http://service-registry-in-eureka:8761/eureka/
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
       restartPolicy: Always # Equivalent to 'unless-stopped'
 
 ---

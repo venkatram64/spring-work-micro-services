@@ -1,6 +1,4 @@
 
-
-
 Step 1: 
 maven package, which will build the jar file (post-config-server.jar)
 

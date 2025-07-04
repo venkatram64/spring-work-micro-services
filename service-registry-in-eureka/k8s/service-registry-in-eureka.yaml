@@ -21,8 +21,8 @@ spec:
           ports:
             - containerPort: 8761
           env:
-            - name: SPRING_CONFIG_IMPORT
-              value: "optional:configserver:http://post-config-server:8088"
+#            - name: SPRING_CONFIG_IMPORT
+#              value: "optional:configserver:http://post-config-server:8088"
             - name: SPRING_CLOUD_CONFIG_URI
               value: "http://post-config-server:8088"
             - name: SPRING_CLOUD_CONFIG_FAIL_FAST
@@ -33,6 +33,26 @@ spec:
               value: "6"
             - name: SPRING_CLOUD_CONFIG_RETRY_INITIAL_INTERVAL
               value: "3000"
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+            - name: EUREKA_CLIENT_REGISTER_WITH_EUREKA
+              value: "false"
+            - name: EUREKA_CLIENT_FETCH_REGISTRY
+              value: "false"
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: "service-registry-in-eureka"  # Must match Kubernetes service name
+            - name: EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE
+              value: "http://service-registry-in-eureka:8761/eureka/"
+            - name: EUREKA_SERVER_PEER_NODE_URL
+              value: "http://service-registry-in-eureka:8761/eureka/"
+            - name: EUREKA_SERVER_ENABLE_SELF_PRESERVATION
+              value: "false"
+            - name: EUREKA_SERVER_WAIT_TIME_IN_MS_WHEN_SYNC_EMPTY
+              value: "0"
+            - name: LOGGING_LEVEL_COM_NETFLIX_EUREKA
+              value: "DEBUG"
+            - name: LOGGING_LEVEL_COM_NETFLIX_DISCOVERY
+              value: "DEBUG"
       restartPolicy: Always # Equivalent to 'unless-stopped'
 
 ---

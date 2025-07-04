@@ -45,7 +45,7 @@ spec:
       volumes:
         - name: init-sql
           configMap:
-            name: mysql-init-sql
+            name: mysql-init-sql2
 
 ---
 # MySQL Service
@@ -67,7 +67,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-init-sql
+  name: mysql-init-sql2
 data:
   posts.sql: |
     CREATE DATABASE IF NOT EXISTS `posts_db`;
