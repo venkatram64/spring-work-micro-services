@@ -31,6 +31,13 @@ spec:
                 -Deureka.client.service-url.defaultZone=http://service-registry-in-eureka:8761/eureka/
             - name: SPRING_PROFILES_ACTIVE
               value: "dev"
+            # Tracing & Monitoring
+            - name: MANAGEMENT_TRACING_ENABLED
+              value: "true"
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              value: "http://zipkin-server:9411/api/v2/spans"
+            - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+              value: "health,info,prometheus"
       restartPolicy: Always # Equivalent to 'unless-stopped'
 
 ---
