@@ -105,8 +105,8 @@ PS D:\MyProjects\MyWork\spring-work-micro-services>
 see the PORTS section, localhost/0.0.0.0:8080 so I used in .env file 
 REACT_APP_API_URL='http://localhost:8080/'
 
----------------------
-
+----------------creating a docker image-----
+I am unable to add manifest file for kubernetes, I know the problem with api gateway
 Dockerfile
 
 step 1:
@@ -117,3 +117,21 @@ docker login
 
 step 3:
 docker push explorejava/my-post-react-app:latest
+
+latest: digest: sha256:d6c5831fc2fb6a24747032cd8f8554eb038b3ecf6d2eed3ca4db3935536c96ce size: 2200
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl get pods -n ingress-nginx
+NAME                                        READY   STATUS    RESTARTS        AGE
+ingress-nginx-controller-684d55c96d-jv64k   1/1     Running   3 (4d23h ago)   20d
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl get svc -n ingress-nginx
+NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             NodePort    10.96.118.224   <none>        80:32297/TCP,443:30088/TCP   20d
+ingress-nginx-controller-admission   ClusterIP   10.96.168.198   <none>        443/TCP                      20d
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app>
+
+To run app after image is pushed
+
+step 3:
+
+kubectl apply -f ./k8s
+
+http://localhost:8080/  (but not working)

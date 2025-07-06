@@ -1,0 +1,38 @@
+#not working
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-react-post-deploy
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: my-react-post-app
+  template:
+    metadata:
+      labels:
+        app: my-react-post-app
+    spec:
+      containers:
+        - name: my-react-post-app-img
+          image: explorejava/my-post-react-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      restartPolicy: Always # Equivalent to 'unless-stopped'
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-react-post-app-service  # this service name will be used in ingress rule "my-ingress.yaml"
+spec:
+  type: ClusterIP
+  selector:
+    app: my-react-post-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
