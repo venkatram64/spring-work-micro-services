@@ -9,16 +9,11 @@ spring:
     config:
       server:
         git:
-          uri: ${GIT_REPO_URI:https://github.com/venkatram64/k8s-ms-cntralized-config.git}
+          uri: ${GIT_REPO_URI:https://github.com/venkatram64/aws-k8s-ms-centralized-config.git}
           default-label: ${GIT_DEFAULT_BRANCH:main}
           search-paths:
-            - config/{application}
-#          search-paths:
-#            - config/content-service/{application}
-#            - config/post-service/{application}
-#            - config/post-api-gateway-service/{application}
-#            - config/service-registry-in-eureka/{application}
-#            - config
+            - config/{application}/{application}
+            - config
           basedir: /tmp/config-repo
           force-pull: true
           clone-on-start: true
