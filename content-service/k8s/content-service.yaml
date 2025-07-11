@@ -14,13 +14,14 @@ spec:
       labels:
         app: content-service-app
     spec:
-      initContainers:
-        - name: wait-for-mysql
-          image: busybox:1.28
-          command: ['sh', '-c', 'until nc -z content-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done;']
+#      initContainers:
+#        - name: wait-for-mysql
+#          image: busybox:1.28
+#          command: ['sh', '-c', 'until nc -z content-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done;']
       containers:
         - name: content-service-img
           image: explorejava/content-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
           env:

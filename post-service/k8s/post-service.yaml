@@ -14,13 +14,14 @@ spec:
       labels:
         app: post-service-app
     spec:
-      initContainers:
-        - name: wait-for-mysql
-          image: busybox:1.28
-          command: ['sh', '-c', 'until nc -z posts-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done;']
+#      initContainers:
+#        - name: wait-for-mysql
+#          image: busybox:1.28
+#          command: ['sh', '-c', 'until nc -z posts-mysql 3306; do echo "Waiting for MySQL..."; sleep 5; done;']
       containers:
         - name: post-service-img
           image: explorejava/post-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
