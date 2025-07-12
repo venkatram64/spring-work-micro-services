@@ -13,12 +13,7 @@ spring:
           default-label: ${GIT_DEFAULT_BRANCH:main}
           search-paths:
             - config/{application}
-#          search-paths:
-#            - config/content-service/{application}
-#            - config/post-service/{application}
-#            - config/post-api-gateway-service/{application}
-#            - config/service-registry-in-eureka/{application}
-#            - config
+            - config
           basedir: /tmp/config-repo
           force-pull: true
           clone-on-start: true

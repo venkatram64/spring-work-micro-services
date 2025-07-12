@@ -18,6 +18,7 @@ spec:
       containers:
         - name: service-registry-in-eureka-img
           image: explorejava/service-registry-in-eureka:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8761
           env:

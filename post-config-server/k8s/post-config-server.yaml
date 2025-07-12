@@ -17,6 +17,7 @@ spec:
       containers:
         - name: post-config-server-img
           image: explorejava/post-config-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8088
           env:
