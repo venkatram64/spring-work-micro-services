@@ -1,15 +1,17 @@
 
 Step 1: maven package, which will build the jar file (service-registry-in-eureka.jar)
 
-mvn clean install -Dspring.profiles.active=dev  (not for local)
+(not for local)
+
+mvn clean install -Dspring.profiles.active=dev  
 
 step 2:
 
 build the image
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker build -t explorejava/service-registry-in-eureka:latest .
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker build -t explorejava/service-registry-in-eureka:1.0.0 .
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker push explorejava/service-registry-in-eureka:latest
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> docker push explorejava/service-registry-in-eureka:1.0.0
 
 
 

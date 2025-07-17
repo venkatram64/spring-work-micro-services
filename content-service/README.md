@@ -9,9 +9,9 @@ build the image
 
 
 below one is for my local kubernetes deployment
-PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker build -t explorejava/content-service:latest .
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker build -t explorejava/content-service:1.0.0 .
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker push explorejava/content-service:latest
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> docker push explorejava/content-service:1.0.0
                  or
 
 docker the images

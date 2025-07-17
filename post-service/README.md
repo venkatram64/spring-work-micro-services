@@ -9,9 +9,9 @@ build the image
 
 below one is for my local kubernetes deployment
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker build -t explorejava/post-service:latest .
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker build -t explorejava/post-service:1.0.0 .
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker push explorejava/post-service:latest
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-service> docker push explorejava/post-service:1.0.0
 
 docker the images
 
