@@ -25,7 +25,8 @@ On Windows: C:\Windows\System32\drivers\etc\hosts
 127.0.0.1 post-config-server
 127.0.0.1 post-service
 127.0.0.1 zipkin-server
-127.0.0.1 post-api-gateway-service
+NOTE:
+127.0.0.1 post-api-gateway-service(removed this microservice since I am using ingress for api gateway)
 
 This entire application is dockerized and configuration is done using config server with git repo
 
@@ -334,7 +335,4 @@ wsl --shutdown
 create a network
 
 docker network create shared-network
-
-
-
 

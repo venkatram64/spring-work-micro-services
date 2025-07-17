@@ -112,11 +112,17 @@ Dockerfile
 step 1:
 docker build -t explorejava/my-post-react-app:latest .
 
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> docker build -t explorejava/my-post-react-app:latest .
+
 step 2:
 docker login
 
 step 3:
 docker push explorejava/my-post-react-app:latest
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> docker push explorejava/my-post-react-app:latest
+
+
 
 latest: digest: sha256:d6c5831fc2fb6a24747032cd8f8554eb038b3ecf6d2eed3ca4db3935536c96ce size: 2200
 PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl get pods -n ingress-nginx

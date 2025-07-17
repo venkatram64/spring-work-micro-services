@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: service-registry-in-eureka-img
-          image: explorejava/service-registry-in-eureka:latest
+          image: explorejava/service-registry-in-eureka:1.0.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8761
@@ -50,10 +50,10 @@ spec:
               value: "false"
             - name: EUREKA_SERVER_WAIT_TIME_IN_MS_WHEN_SYNC_EMPTY
               value: "0"
-            - name: LOGGING_LEVEL_COM_NETFLIX_EUREKA
-              value: "DEBUG"
-            - name: LOGGING_LEVEL_COM_NETFLIX_DISCOVERY
-              value: "DEBUG"
+#            - name: LOGGING_LEVEL_COM_NETFLIX_EUREKA
+#              value: "DEBUG"
+#            - name: LOGGING_LEVEL_COM_NETFLIX_DISCOVERY
+#              value: "DEBUG"
       restartPolicy: Always # Equivalent to 'unless-stopped'
 
 ---

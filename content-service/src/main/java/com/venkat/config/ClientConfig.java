@@ -4,6 +4,7 @@ import com.venkat.service.PostClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,17 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
 public class ClientConfig { //which is interacting to other restful webservice
+
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
+    @Value("${post_service_url:http://post-service}")
+    private String baseUrl;
     @Autowired //client side load balancer
     private LoadBalancedExchangeFilterFunction filterFunction;
     @Bean
     PostClient postClient(){
         logger.info("Configuration for WebClient to connect another restful webservices");
         WebClient client = WebClient.builder()
-                .baseUrl("http://post-service/api") //service name is used
+                .baseUrl(baseUrl) //service name is used
                 .filter(filterFunction)
                 .build();
 

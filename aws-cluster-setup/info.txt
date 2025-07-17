@@ -1,0 +1,542 @@
+---------------------------------------eks cluster setup-------------------------------------
+
+disclaimer: this is just for learning, eks cluster creation in aws is price involved even you are using free tier
+
+step 1:
+
+choco install awscli
+
+step 2:
+
+choco install eksctl
+
+step 3:
+
+choco install kubernetes-cli
+
+
+step 4:
+
+login to aws
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> aws configure
+
+AWS Access Key ID [****************KQPS]:
+AWS Secret Access Key [****************hVJO]:
+Default region name [ap-south-1]:
+Default output format [None]:
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> aws sts get-caller-identity
+
+{
+"UserId": "AIDAVPEYWMNDEYIQ5O35I",
+"Account": "376129872710",
+"Arn": "arn:aws:iam::376129872710:user/venkatram"
+}
+---------------
+
+step 5: please visit https://eksctl.io to create the cluster
+
+after creating the yml file to create the cluster, run the below command
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl create cluster -f .\cluster-creation\aws-cluster-creation-01.yaml
+2025-07-17 11:20:46 [ℹ]  eksctl version 0.210.0
+2025-07-17 11:20:46 [ℹ]  using region ap-south-1
+2025-07-17 11:20:46 [!]  Amazon EKS will no longer publish EKS-optimized Amazon Linux 2 (AL2) AMIs after November 26th, 2025. Additionally, Kubernetes version 1.32 is the last version for which Amazon EKS will release AL2 AMIs. From version 1.33 onwards, Amazon EKS will continue to release AL2023 and Bottlerocket based AMIs. The default AMI family when creating clusters and nodegroups in Eksctl will be changed to AL2023 in the future.
+2025-07-17 11:20:47 [ℹ]  subnets for ap-south-1a - public:192.168.0.0/19 private:192.168.64.0/19
+2025-07-17 11:20:47 [ℹ]  subnets for ap-south-1b - public:192.168.32.0/19 private:192.168.96.0/19
+2025-07-17 11:20:47 [ℹ]  nodegroup "my-dev-eks-cluster-ng" will use "ami-02af38bcb74fd962c" [AmazonLinux2/1.32]
+2025-07-17 11:20:47 [ℹ]  using Kubernetes version 1.32
+2025-07-17 11:20:47 [ℹ]  creating EKS cluster "my-dev-eks-cluster" in "ap-south-1" region with un-managed nodes
+2025-07-17 11:20:47 [ℹ]  1 nodegroup (my-dev-eks-cluster-ng) was included (based on the include/exclude rules)
+2025-07-17 11:20:47 [ℹ]  will create a CloudFormation stack for cluster itself and 1 nodegroup stack(s)
+2025-07-17 11:20:47 [ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=ap-south-1 --cluster=my-dev-eks-cluster'
+2025-07-17 11:20:47 [ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "my-dev-eks-cluster" in "ap-south-1"
+2025-07-17 11:20:47 [ℹ]  CloudWatch logging will not be enabled for cluster "my-dev-eks-cluster" in "ap-south-1"
+2025-07-17 11:20:47 [ℹ]  you can enable it with 'eksctl utils update-cluster-logging --enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} --region=ap-south-1 --cluster=my-dev-eks-cluster'
+2025-07-17 11:20:47 [ℹ]  default addons kube-proxy, coredns, metrics-server, vpc-cni were not specified, will install them as EKS addons
+2025-07-17 11:20:47 [ℹ]
+2 sequential tasks: { create cluster control plane "my-dev-eks-cluster",
+    2 sequential sub-tasks: {
+        2 sequential sub-tasks: {
+            1 task: { create addons },
+            wait for control plane to become ready,
+        },
+        create nodegroup "my-dev-eks-cluster-ng",
+    }
+}
+2025-07-17 11:20:47 [ℹ]  building cluster stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:20:47 [ℹ]  deploying stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:21:17 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:21:47 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:22:47 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:23:48 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:24:48 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:25:48 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:26:48 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:27:48 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:28:48 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-17 11:28:49 [ℹ]  creating addon: kube-proxy
+2025-07-17 11:28:50 [ℹ]  successfully created addon: kube-proxy
+2025-07-17 11:28:50 [ℹ]  creating addon: coredns
+2025-07-17 11:28:50 [ℹ]  successfully created addon: coredns
+2025-07-17 11:28:50 [ℹ]  creating addon: metrics-server
+2025-07-17 11:28:51 [ℹ]  successfully created addon: metrics-server
+2025-07-17 11:28:51 [!]  recommended policies were found for "vpc-cni" addon, but since OIDC is disabled on the cluster, eksctl cannot configure the requested permissions; the recommended way to provide IAM permissions for "vpc-cni" addon is via pod identity associations; after addon creation is completed, add all recommended policies to the config file, under `addon.PodIdentityAssociations`, and run `eksctl update addon`
+2025-07-17 11:28:51 [ℹ]  creating addon: vpc-cni
+2025-07-17 11:28:52 [ℹ]  successfully created addon: vpc-cni
+2025-07-17 11:30:52 [ℹ]  building nodegroup stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:30:53 [ℹ]  deploying stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:30:53 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:31:23 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:32:02 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:32:55 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:34:32 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-17 11:34:32 [ℹ]  waiting for the control plane to become ready
+2025-07-17 11:34:35 [✔]  saved kubeconfig as "C:\\Users\\venka\\.kube\\config"
+2025-07-17 11:34:35 [ℹ]  no tasks
+2025-07-17 11:34:35 [✔]  all EKS cluster resources for "my-dev-eks-cluster" have been created
+2025-07-17 11:34:35 [ℹ]  nodegroup "my-dev-eks-cluster-ng" has 1 node(s)
+2025-07-17 11:34:35 [ℹ]  node "ip-192-168-13-16.ap-south-1.compute.internal" is ready
+2025-07-17 11:34:35 [ℹ]  waiting for at least 1 node(s) to become ready in "my-dev-eks-cluster-ng"
+2025-07-17 11:34:35 [ℹ]  nodegroup "my-dev-eks-cluster-ng" has 1 node(s)
+2025-07-17 11:34:35 [ℹ]  node "ip-192-168-13-16.ap-south-1.compute.internal" is ready
+2025-07-17 11:34:35 [✔]  created 1 nodegroup(s) in cluster "my-dev-eks-cluster"
+2025-07-17 11:34:37 [ℹ]  kubectl command should work with "C:\\Users\\venka\\.kube\\config", try 'kubectl get nodes'
+2025-07-17 11:34:37 [✔]  EKS cluster "my-dev-eks-cluster" in "ap-south-1" region is ready
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get pods
+No resources found in default namespace.
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get nodes
+NAME                                           STATUS   ROLES    AGE     VERSION
+ip-192-168-13-16.ap-south-1.compute.internal   Ready    <none>   6m22s   v1.32.3-eks-473151a
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+server endpoint
+https://976F3BB4ED55EE938C8054AF16F4BDBC.gr7.ap-south-1.eks.amazonaws.com
+
+------------------------------
+step 6: creating iam policy
+
+
+for reference for aws-load-balancer-controller
+https://docs.aws.amazon.com/eks/latest/userguide/lbc-manifest.html
+
+
+https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.4.7/docs/install/iam_policy.json
+
+download above file into iam_policy.json to run iam_policy.json
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json --region ap-south-1
+
+{
+"Policy": {
+"PolicyName": "AWSLoadBalancerControllerIAMPolicy",
+"PolicyId": "ANPAVPEYWMNDFETNQTZF6",
+"Arn": "arn:aws:iam::376129872710:policy/AWSLoadBalancerControllerIAMPolicy",
+"Path": "/",
+"DefaultVersionId": "v1",
+"AttachmentCount": 0,
+"PermissionsBoundaryUsageCount": 0,
+"IsAttachable": true,
+"CreateDate": "2025-07-13T05:45:25+00:00",
+"UpdateDate": "2025-07-13T05:45:25+00:00"
+}
+}
+-----------------------------
+
+step 7: associate iam oidc provider with eks cluster
+
+eksctl utils associate-iam-oidc-provider --region=ap-south-1 --cluster=my-dev-eks-cluster --approve
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl utils associate-iam-oidc-provider --region=ap-south-1 --cluster=my-dev-eks-cluster --approve
+2025-07-13 13:55:56 [ℹ]  will create IAM Open ID Connect provider for cluster "my-dev-eks-cluster" in "ap-south-1"
+2025-07-13 13:55:56 [✔]  created IAM Open ID Connect provider for cluster "my-dev-eks-cluster" in "ap-south-1"
+
+---------------------
+
+step 8: creating iam role, this below script use your "Account ID"
+
+eksctl create iamserviceaccount --cluster=my-dev-eks-cluster --namespace=kube-system --region ap-south-1 --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::376129872710:policy/AWSLoadBalancerControllerIAMPolicy --approve
+
+above one only run in cmd
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server> eksctl create iamserviceaccount --cluster=my-dev-eks-cluster --namespace=kube-system --region ap-south-1 --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::376129872710:policy/AWSLoadBalancerControllerIAMPolicy --approve
+
+2025-07-13 14:19:23 [ℹ]  1 iamserviceaccount (kube-system/aws-load-balancer-controller) was included (based on the include/exclude rules)
+2025-07-13 14:19:23 [!]  serviceaccounts that exist in Kubernetes will be excluded, use --override-existing-serviceaccounts to override
+2025-07-13 14:19:23 [ℹ]  1 task: {
+    2 sequential sub-tasks: {
+        create IAM role for serviceaccount "kube-system/aws-load-balancer-controller",
+        create serviceaccount "kube-system/aws-load-balancer-controller",
+    } }2025-07-13 14:19:23 [ℹ]  building iamserviceaccount stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 14:19:23 [ℹ]  deploying stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 14:19:23 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 14:19:53 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 14:19:53 [ℹ]  created serviceaccount "kube-system/aws-load-balancer-controller"
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server>
+--------------------------------
+
+step 8: apply certificate
+
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
+above one only ran in cmd
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server> kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.yaml
+customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/challenges.acme.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/clusterissuers.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/issuers.cert-manager.io created
+customresourcedefinition.apiextensions.k8s.io/orders.acme.cert-manager.io created
+namespace/cert-manager created
+serviceaccount/cert-manager-cainjector created
+serviceaccount/cert-manager created
+serviceaccount/cert-manager-webhook created
+configmap/cert-manager-webhook created
+clusterrole.rbac.authorization.k8s.io/cert-manager-cainjector created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-issuers created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificates created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-orders created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-challenges created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
+clusterrole.rbac.authorization.k8s.io/cert-manager-view created
+clusterrole.rbac.authorization.k8s.io/cert-manager-edit created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
+clusterrole.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-cainjector created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-issuers created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificates created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-orders created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-challenges created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
+role.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
+role.rbac.authorization.k8s.io/cert-manager:leaderelection created
+role.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
+rolebinding.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
+rolebinding.rbac.authorization.k8s.io/cert-manager:leaderelection created
+rolebinding.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
+service/cert-manager created
+service/cert-manager-webhook created
+deployment.apps/cert-manager-cainjector created
+deployment.apps/cert-manager created
+deployment.apps/cert-manager-webhook created
+mutatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server>
+---------------------------------
+
+step 9: installing ALB ingress controller, download the file from below link and modify the file
+
+https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.7/v2_4_7_full.yaml
+
+
+remove the service account from the yaml file and search for "your-cluster-name"
+
+modify the below line as per your cluster name
+
+        - --cluster-name=my-dev-eks-cluster
+        - --ingress-class=alb
+        - --aws-region=ap-south-1
+        - --aws-vpc-id=vpc-0810362893026c8cd
+
+
+after above changes run the below command
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl apply -n kube-system -f .\ingress\my-ingress.yaml
+
+Warning: annotation "kubernetes.io/ingress.class" is deprecated, please use 'spec.ingressClassName' instead
+ingress.networking.k8s.io/my-aws-ingress created
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl apply -n kube-system -f .\ingress-controller\v2_4_7_full_modified.yaml
+customresourcedefinition.apiextensions.k8s.io/ingressclassparams.elbv2.k8s.aws configured
+customresourcedefinition.apiextensions.k8s.io/targetgroupbindings.elbv2.k8s.aws configured
+role.rbac.authorization.k8s.io/aws-load-balancer-controller-leader-election-role unchanged
+clusterrole.rbac.authorization.k8s.io/aws-load-balancer-controller-role configured
+rolebinding.rbac.authorization.k8s.io/aws-load-balancer-controller-leader-election-rolebinding unchanged
+clusterrolebinding.rbac.authorization.k8s.io/aws-load-balancer-controller-rolebinding unchanged
+service/aws-load-balancer-webhook-service unchanged
+deployment.apps/aws-load-balancer-controller configured
+certificate.cert-manager.io/aws-load-balancer-serving-cert unchanged
+issuer.cert-manager.io/aws-load-balancer-selfsigned-issuer unchanged
+mutatingwebhookconfiguration.admissionregistration.k8s.io/aws-load-balancer-webhook configured
+validatingwebhookconfiguration.admissionregistration.k8s.io/aws-load-balancer-webhook configured
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+to see the logs
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl logs -n kube-system -f deployment.apps/aws-load-balancer-controller
+
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
+NAME                                           READY   STATUS    RESTARTS   AGE
+aws-load-balancer-controller-744cb7659-btz69   1/1     Running   0          9m38s
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+
+load balancer dnd url
+
+k8s-kubesyst-myawsing-b2008b3270-1027885121.ap-south-1.elb.amazonaws.com
+
+
+
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get pods -n kube-system
+NAME                                            READY   STATUS    RESTARTS   AGE
+aws-load-balancer-controller-84c485dfc5-4trsl   1/1     Running   0          40s
+aws-node-49qzb                                  2/2     Running   0          15m
+coredns-6799d65cb-j59pg                         1/1     Running   0          17m
+coredns-6799d65cb-kt422                         1/1     Running   0          17m
+kube-proxy-zpmj7                                1/1     Running   0          15m
+metrics-server-68cd648d99-2vssp                 1/1     Running   0          17m
+metrics-server-68cd648d99-swz9r                 1/1     Running   0          17m
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+kubectl get ingress
+
+---------------------- if you do not get any error then you are good to go to step 12-------------
+
+step 10: in my case cluster is created but pod is not created due to memory issues so I changed in aws-cluster-creation-01.yaml
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl describe pod aws-load-balancer-controller-84c485dfc5-978j2 -n kube-system
+
+from above command found the error
+------------------------------------
+
+step 11: for deleting the cluster, first stop the ec2 instances
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl delete cluster --name=my-dev-eks-cluster --region=ap-south-1
+
+2025-07-13 16:20:10 [ℹ]  deleting EKS cluster "my-dev-eks-cluster"
+2025-07-13 16:20:11 [ℹ]  will drain 1 unmanaged nodegroup(s) in cluster "my-dev-eks-cluster"
+2025-07-13 16:20:11 [ℹ]  starting parallel draining, max in-flight of 1
+2025-07-13 16:21:12 [ℹ]  cordon node "ip-192-168-23-55.ap-south-1.compute.internal"
+2025-07-13 16:21:12 [✔]  drained all nodes: [ip-192-168-29-49.ap-south-1.compute.internal ip-192-168-23-55.ap-south-1.compute.internal]
+2025-07-13 16:21:12 [ℹ]  deleted 0 Fargate profile(s)
+2025-07-13 16:21:13 [✔]  kubeconfig has been updated
+2025-07-13 16:21:13 [ℹ]  cleaning up AWS load balancers created by Kubernetes objects of Kind Service or Ingress
+2025-07-13 16:21:15 [ℹ]
+3 sequential tasks: { delete nodegroup "my-dev-eks-cluster-ng",
+    2 sequential sub-tasks: {
+        2 sequential sub-tasks: {
+            delete IAM role for serviceaccount "kube-system/aws-load-balancer-controller",
+            delete serviceaccount "kube-system/aws-load-balancer-controller",
+        },
+        delete IAM OIDC provider,
+    }, delete cluster control plane "my-dev-eks-cluster" [async]
+}
+2025-07-13 16:21:15 [ℹ]  will delete stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-13 16:21:15 [ℹ]  waiting for stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng" to get deleted
+2025-07-13 16:21:15 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-13 16:21:45 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-13 16:22:29 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-13 16:23:07 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-13 16:24:53 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
+2025-07-13 16:24:53 [ℹ]  will delete stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 16:24:53 [ℹ]  waiting for stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller" to get deleted
+2025-07-13 16:24:53 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 16:25:23 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
+2025-07-13 16:25:23 [ℹ]  deleted serviceaccount "kube-system/aws-load-balancer-controller"
+2025-07-13 16:25:24 [ℹ]  will delete stack "eksctl-my-dev-eks-cluster-cluster"
+2025-07-13 16:25:25 [✔]  all cluster resources were deleted
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+-----------------------------------
+
+step 12: creating the ingress file, which is in ingress folder
+
+-----------------------------------
+
+step 13:
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get all -n kube-system
+NAME                                                READY   STATUS    RESTARTS   AGE
+pod/aws-load-balancer-controller-84c485dfc5-4trsl   1/1     Running   0          4m17s
+pod/aws-node-49qzb                                  2/2     Running   0          19m
+pod/coredns-6799d65cb-j59pg                         1/1     Running   0          21m
+pod/coredns-6799d65cb-kt422                         1/1     Running   0          21m
+pod/kube-proxy-zpmj7                                1/1     Running   0          19m
+pod/metrics-server-68cd648d99-2vssp                 1/1     Running   0          21m
+pod/metrics-server-68cd648d99-swz9r                 1/1     Running   0          21m
+
+NAME                                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+service/aws-load-balancer-webhook-service   ClusterIP   10.100.176.254   <none>        443/TCP                  4m17s
+service/eks-extension-metrics-api           ClusterIP   10.100.138.241   <none>        443/TCP                  25m
+service/kube-dns                            ClusterIP   10.100.0.10      <none>        53/UDP,53/TCP,9153/TCP   21m
+service/metrics-server                      ClusterIP   10.100.50.163    <none>        443/TCP                  21m
+
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/aws-node     1         1         1       1            1           <none>          21m
+daemonset.apps/kube-proxy   1         1         1       1            1           <none>          21m
+
+NAME                                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/aws-load-balancer-controller   1/1     1            1           4m17s
+deployment.apps/coredns                        2/2     2            2           21m
+deployment.apps/metrics-server                 2/2     2            2           21m
+
+NAME                                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/aws-load-balancer-controller-84c485dfc5   1         1         1       4m17s
+replicaset.apps/coredns-6799d65cb                         2         2         2       21m
+replicaset.apps/metrics-server-68cd648d99                 2         2         2       21m
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+
+step 14: run the below command
+
+run all manifest files to deploy the all micro services
+
+
+1.
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl apply -n kube-system -f .\zipkin-server.yaml
+deployment.apps/zipkin-server-deploy created
+service/zipkin-server created
+
+2.
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server> kubectl apply -n kube-system -f .\k8s\
+deployment.apps/post-config-server-deploy created
+service/post-config-server created
+
+3.
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> kubectl apply -n kube-system -f .\k8s\
+deployment.apps/service-registry-in-eureka-deploy created
+service/service-registry-in-eureka created
+
+4.
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\post-service>  kubectl apply -n kube-system -f .\k8s\
+configmap/mongo-init-js created
+secret/mysql-secret created
+deployment.apps/post-service-deploy created
+service/post-service created
+
+5.
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\content-service>  kubectl apply -n kube-system -f .\k8s\
+deployment.apps/content-service-deploy created
+service/content-service created
+configmap/mongo-init-js configured
+secret/mysql-secret unchanged
+
+6.
+
+Run the ingress
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get ingress -n kube-system
+No resources found in kube-system namespace.
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl apply -n kube-system -f .\ingress\my-ingress.yaml
+
+Warning: annotation "kubernetes.io/ingress.class" is deprecated, please use 'spec.ingressClassName' instead
+ingress.networking.k8s.io/my-aws-ingress created
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+7.
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl apply -n kube-system -f .\k8s\reactjs-deploy.yaml
+deployment.apps/my-react-post-deploy created
+service/my-react-post-app-service created
+
+
+
+
+
+and test end to end application
+
+-------------------------------------
+
+step 15: check all services
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl get all -kube-system
+error: when paths, URLs, or stdin is provided as input, you may not specify resource arguments as well
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl get all -n kube-system
+NAME                                                    READY   STATUS                       RESTARTS   AGE
+pod/aws-load-balancer-controller-744cb7659-btz69        1/1     Running                      0          68m
+pod/aws-node-49qzb                                      2/2     Running                      0          115m
+pod/content-service-deploy-59d79c55f9-5spnc             0/1     CreateContainerConfigError   0          76m
+pod/coredns-6799d65cb-j59pg                             1/1     Running                      0          117m
+pod/coredns-6799d65cb-kt422                             1/1     Running                      0          117m
+pod/kube-proxy-zpmj7                                    1/1     Running                      0          115m
+pod/metrics-server-68cd648d99-2vssp                     1/1     Running                      0          117m
+pod/metrics-server-68cd648d99-swz9r                     1/1     Running                      0          117m
+pod/my-react-post-deploy-567d997558-tbnb5               1/1     Running                      0          83s
+pod/post-config-server-deploy-5565bdbd59-sw4z9          1/1     Running                      0          78m
+pod/post-service-deploy-cd9bcc644-btmhv                 0/1     CreateContainerConfigError   0          76m
+pod/service-registry-in-eureka-deploy-8458dfc44-br944   1/1     Running                      0          77m
+pod/zipkin-server-deploy-94664865d-qc6cw                1/1     Running                      0          80m
+
+NAME                                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                  AGE
+service/aws-load-balancer-webhook-service   ClusterIP   10.100.176.254   <none>        443/TCP                  100m
+service/content-service                     ClusterIP   10.100.56.248    <none>        8082/TCP                 76m
+service/eks-extension-metrics-api           ClusterIP   10.100.138.241   <none>        443/TCP                  121m
+service/kube-dns                            ClusterIP   10.100.0.10      <none>        53/UDP,53/TCP,9153/TCP   117m
+service/metrics-server                      ClusterIP   10.100.50.163    <none>        443/TCP                  117m
+service/my-react-post-app-service           ClusterIP   10.100.79.244    <none>        80/TCP                   83s
+service/post-config-server                  ClusterIP   10.100.52.193    <none>        8088/TCP                 78m
+service/post-service                        ClusterIP   10.100.177.103   <none>        8081/TCP                 76m
+service/service-registry-in-eureka          ClusterIP   10.100.186.68    <none>        8761/TCP                 77m
+service/zipkin-server                       ClusterIP   10.100.116.157   <none>        9411/TCP                 80m
+
+NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/aws-node     1         1         1       1            1           <none>          117m
+daemonset.apps/kube-proxy   1         1         1       1            1           <none>          117m
+
+NAME                                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/aws-load-balancer-controller        1/1     1            1           100m
+deployment.apps/content-service-deploy              0/1     1            0           76m
+deployment.apps/coredns                             2/2     2            2           117m
+deployment.apps/metrics-server                      2/2     2            2           117m
+deployment.apps/my-react-post-deploy                1/1     1            1           84s
+deployment.apps/post-config-server-deploy           1/1     1            1           78m
+deployment.apps/post-service-deploy                 0/1     1            0           76m
+deployment.apps/service-registry-in-eureka-deploy   1/1     1            1           77m
+deployment.apps/zipkin-server-deploy                1/1     1            1           80m
+
+NAME                                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/aws-load-balancer-controller-744cb7659        1         1         1       68m
+replicaset.apps/aws-load-balancer-controller-84c485dfc5       0         0         0       100m
+replicaset.apps/content-service-deploy-59d79c55f9             1         1         0       76m
+replicaset.apps/coredns-6799d65cb                             2         2         2       117m
+replicaset.apps/metrics-server-68cd648d99                     2         2         2       117m
+replicaset.apps/my-react-post-deploy-567d997558               1         1         1       84s
+replicaset.apps/post-config-server-deploy-5565bdbd59          1         1         1       78m
+replicaset.apps/post-service-deploy-cd9bcc644                 1         1         0       76m
+replicaset.apps/service-registry-in-eureka-deploy-8458dfc44   1         1         1       77m
+replicaset.apps/zipkin-server-deploy-94664865d                1         1         1       80m
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app>
+
+
+
+step 16: port forwarding for eureka
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\service-registry-in-eureka> kubectl -n kube-system port-forward service/service-registry-in-eureka 8761:8761
+Forwarding from 127.0.0.1:8761 -> 8761
+Forwarding from [::1]:8761 -> 8761
+Handling connection for 8761
+Handling connection for 8761
+Handling connection for 8761
+Handling connection for 8761
+
+PS D:\MyProjects\MyWork\spring-work-micro-services> kubectl -n kube-system logs -f service/service-registry-in-eureka
+
+
+
+
+
+
+
+
+
