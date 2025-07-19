@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: dbConfigmap
+  name: dbconfigmap
 data:
-  posts_db_url: 'jdbc:mysql://mysql-db-instance.cnqqm04msin0.ap-south-1.rds.amazonaws.com'
-  content_db_url: 'jdbc:mysql://mysql-db-instance.cnqqm04msin0.ap-south-1.rds.amazonaws.com'
-  post_service_url: 'https://259D9FF66EBAA551D4FE54366237D322.gr7.ap-south-1.eks.amazonaws.com'  # alb
+  posts_db_url: 'jdbc:mysql://mysql-db-instance.cnqqm04msin0.ap-south-1.rds.amazonaws.com:3306/posts_db'
+  content_db_url: 'jdbc:mysql://mysql-db-instance.cnqqm04msin0.ap-south-1.rds.amazonaws.com:3306/content_db'
+  post_service_url: 'https://k8s-kubesyst-myawsing-b2008b3270-663187801.ap-south-1.elb.amazonaws.com'  # alb

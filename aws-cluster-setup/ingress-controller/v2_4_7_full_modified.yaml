@@ -805,7 +805,7 @@ spec:
         - --cluster-name=my-dev-eks-cluster
         - --ingress-class=alb
         - --aws-region=ap-south-1
-        - --aws-vpc-id=vpc-0810362893026c8cd  #vpc id
+        - --aws-vpc-id=vpc-0f250ff3441aa6dab  #vpc id
         image: public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
         livenessProbe:
           failureThreshold: 2

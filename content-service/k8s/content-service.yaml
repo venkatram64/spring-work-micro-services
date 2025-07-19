@@ -45,22 +45,22 @@ spec:
               #value: "jdbc:mysql://content-mysql:3306/content_db"
               valueFrom:
                 configMapKeyRef:
-                  name: dbConfigmap
+                  name: dbconfigmap
                   key: content_db_url
             - name: post_service_url
               valueFrom:
                 configMapKeyRef:
-                  name: dbConfigmap
+                  name: dbconfigmap
                   key: post_service_url
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: mysqlSecret
+                  name: mysqlsecret
                   key: SPRING_DATASOURCE_USERNAME
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysqlSecret
+                  name: mysqlsecret
                   key: SPRING_DATASOURCE_PASSWORD
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: "com.mysql.cj.jdbc.Driver"
