@@ -17,6 +17,7 @@ const Nav = (props) => {
 
   //logout link
   const logout = () => {
+    console.log("logout");
     window.localStorage.removeItem("auth");
     setState(null); //setting empty object
     //after logout, show the login page to user

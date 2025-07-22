@@ -16,15 +16,18 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class ClientConfig { //which is interacting to other restful webservice
 
     private static final Logger logger = LoggerFactory.getLogger(ClientConfig.class);
-    @Value("${post_service_url:http://post-service}")
+
     private String baseUrl;
+
     @Autowired //client side load balancer
     private LoadBalancedExchangeFilterFunction filterFunction;
+
     @Bean
     PostClient postClient(){
         logger.info("Configuration for WebClient to connect another restful webservices");
         WebClient client = WebClient.builder()
-                .baseUrl(baseUrl) //service name is used
+                .baseUrl("http://post-service/api") //service name is used
+                //.defaultHeader("Accept", "application/json")
                 .filter(filterFunction)
                 .build();
 

@@ -69,7 +69,9 @@ const Register = () => {
       setOk(true);
       setLoading(false);
     } catch (err) {
-      toast.error(err.response.data.message);
+      console.log(err);
+      debugger;
+      //toast.error(err.response.data.message);
       setLoading(false);
     }
   };

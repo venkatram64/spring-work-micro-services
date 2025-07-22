@@ -28,6 +28,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -49,7 +50,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
         //authentication
         http
                 //.cors(Customizer.withDefaults())//by default use a bean by the name of corsConfigurationSource
-                //.cors(c -> c.configurationSource(corsConfigurationSource()))
+                .cors(c -> c.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers("/api/auth/**")
@@ -89,10 +90,12 @@ public class SecurityConfig {//spring security, each request is intercepted by t
             String exception = (String)request.getAttribute("exception");
             if(exception != null){
                 response.getOutputStream()
-                        .println("{ \"error\": \"Unauthorized\", \"message\": \"" + exception + "\" }");
+                        .println("{ \"error\": \"Unauthorized\", \"message\": \"" + exception + "\"" +
+                                ", \"path\": \"" + request.getRequestURI() + "\", \"Headers\": \"" + request.getHeaderNames() + "\" }");;
             }else {
                 response.getOutputStream()
-                        .println("{ \"error\": \"Unauthorized\", \"message\": \"" + authException.getMessage() + "\" }");
+                        .println("{ \"error\": \"Unauthorized\", \"message\": \"" + authException.getMessage() + "\" " +
+                                ", \"path\": \"" + request.getRequestURI() + "\" , \"Headers\": \"" + request.getHeaderNames() + "\" }");
             }
         }
     }
@@ -103,6 +106,7 @@ public class SecurityConfig {//spring security, each request is intercepted by t
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));//GET,POST,...
         configuration.setAllowedHeaders(Arrays.asList("*")); //Authorization
+        configuration.setExposedHeaders(List.of("Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

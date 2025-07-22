@@ -3,6 +3,10 @@ below is the link for aws load balancer controller
 
 https://docs.aws.amazon.com/eks/latest/userguide/lbc-manifest.html
 
+please visit below link to install kubectl
+
+https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+
 
 disclaimer: this is just for learning, eks cluster creation in aws is price involved even you are using free tier
 after testing the cluster, you can delete the cluster
@@ -139,6 +143,22 @@ https://976F3BB4ED55EE938C8054AF16F4BDBC.gr7.ap-south-1.eks.amazonaws.com
 aws eks --region ap-south-1 describe-cluster --name my-dev-eks-cluster --query "cluster.status" --output text
 
 
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> aws eks --region ap-south-1 describe-cluster --name my-dev-eks-cluster --query "cluster.status" --output text
+
+ACTIVE
+
+
+
+kubectl cluster-info
+
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl cluster-info
+
+Kubernetes control plane is running at https://767FF9BBF17AA2A2497FACFBF98F5E1B.gr7.ap-south-1.eks.amazonaws.com
+CoreDNS is running at https://767FF9BBF17AA2A2497FACFBF98F5E1B.gr7.ap-south-1.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+
+
 kubectl get nodes
 
 kubectl get pods -n kube-system
@@ -173,6 +193,7 @@ download above file into iam_policy.json to run iam_policy.json
 
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json --region ap-south-1
+
 {
 "Policy": {
 "PolicyName": "AWSLoadBalancerControllerIAMPolicy",
@@ -197,9 +218,13 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl uti
 2025-07-13 13:55:56 [ℹ]  will create IAM Open ID Connect provider for cluster "my-dev-eks-cluster" in "ap-south-1"
 2025-07-13 13:55:56 [✔]  created IAM Open ID Connect provider for cluster "my-dev-eks-cluster" in "ap-south-1"
 
+
+
+
+
 ---------------------
 
-step 8: creating iam role, this below script use your "Account ID"
+step 8: creating iam role for service account, this below script use your "Account ID"
 
 eksctl create iamserviceaccount --cluster=my-dev-eks-cluster --namespace=kube-system --region ap-south-1 --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::376129872710:policy/AWSLoadBalancerControllerIAMPolicy --approve
 
@@ -219,6 +244,9 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server> eksctl cr
 2025-07-13 14:19:53 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-addon-iamserviceaccount-kube-system-aws-load-balancer-controller"
 2025-07-13 14:19:53 [ℹ]  created serviceaccount "kube-system/aws-load-balancer-controller"
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server>
+
+
+
 --------------------------------
 
 step 8: apply certificate
@@ -277,7 +305,7 @@ validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook
 PS D:\MyProjects\MyWork\spring-work-micro-services\post-config-server>
 ---------------------------------
 
-step 9: installing ALB ingress controller, download the file from below link and modify the file
+step 9: installing ALB ingress controller, which will be used for load balancer creation. download the file from below link and modify the file
 
 https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.4.7/v2_4_7_full.yaml
 
@@ -314,7 +342,7 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl lo
 
 to see the config
 
-kubectl exec -it -n kube-system deployment.apps/aws-load-balancer-controller cat /etc/nginx/nginx.conf  | more
+
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get all -n kube-system
 
@@ -348,12 +376,20 @@ replicaset.apps/coredns-6799d65cb                        2         2         2  
 replicaset.apps/metrics-server-68cd648d99                2         2         2       16m
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
 
+kubectl get deployment -n kube-system aws-load-balancer-controller
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get deployment -n kube-system aws-load-balancer-controller
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+
+aws-load-balancer-controller   1/1     1            1           2m2s
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
 
 
 
-load balancer dnd url
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl logs -n kube-system deployment/aws-load-balancer-controller
 
-k8s-kubesyst-myawsing-b2008b3270-1027885121.ap-south-1.elb.amazonaws.com
 
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get pods -n kube-system
@@ -372,12 +408,18 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
 
 step 10: in my case cluster is created but pod is not created due to memory issues so I changed in aws-cluster-creation-01.yaml
 
-PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl describe pod aws-load-balancer-controller-84c485dfc5-978j2 -n kube-system
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl describe pod/aws-load-balancer-controller-5b596d6757-vkwx4  -n kube-system
 
 from above command found the error
-------------------------------------
+------------------------------------Deleting Cluster ---------------------------------
 
 step 11: for deleting the cluster, first stop the ec2 instances
+
+or delete all the pods
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl delete pod/aws-load-balancer-controller-5b596d6757-cmn5z -n kube-system --grace-period=0 --force
+
+
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl delete cluster --name=my-dev-eks-cluster --region=ap-south-1
 
@@ -453,6 +495,7 @@ NAME                                                      DESIRED   CURRENT   RE
 replicaset.apps/aws-load-balancer-controller-84c485dfc5   1         1         1       4m17s
 replicaset.apps/coredns-6799d65cb                         2         2         2       21m
 replicaset.apps/metrics-server-68cd648d99                 2         2         2       21m
+
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
 
 
@@ -515,7 +558,7 @@ secret/mysql-secret unchanged
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\content-service> kubectl -n kube-system logs -f service/content-service
 
-6.
+6. deploy the ingress manifest file
 
 Run the ingress
 
@@ -528,13 +571,28 @@ ingress.networking.k8s.io/my-aws-ingress created
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl get ingress -n kube-system
+
 NAME             CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
 my-aws-ingress   <none>   *       k8s-kubesyst-myawsing-b2008b3270-663187801.ap-south-1.elb.amazonaws.com   80      12m
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
 
+
+load balancer dns url
+
+k8s-kubesyst-myawsing-b2008b3270-1027885121.ap-south-1.elb.amazonaws.com
+
+kubectl describe ingress -n kube-system my-aws-ingress
+
 7.
 before running the below command, update alb url in .env file
 
+build react application
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl apply -n kube-system -f .\k8s\reactjs-deploy.yaml
+
+push react application
+
+PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> docker push explorejava/my-post-react-app:latest
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\my-post-react-app> kubectl apply -n kube-system -f .\k8s\reactjs-deploy.yaml
 deployment.apps/my-react-post-deploy created

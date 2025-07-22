@@ -3,6 +3,6 @@ kind: Secret
 metadata:
   name: mysqlsecret
 data:
-  SPRING_DATASOURCE_USERNAME: YWRtaW4= # $ echo -n admin | base64
-  SPRING_DATASOURCE_PASSWORD: YWRtaW4xMjM0 #$ echo -n admin1234 | base64
+  SPRING_DATASOURCE_USERNAME: YWRtaW4= # $ echo  admin | base64
+  SPRING_DATASOURCE_PASSWORD: YWRtaW4xMjM0 #$ echo  admin1234 | base64
 

@@ -3,6 +3,7 @@ kind: ClusterConfig
 metadata:
   name: my-dev-eks-cluster
   region: ap-south-1
+  version: "1.33"
 availabilityZones:
   - ap-south-1a
   - ap-south-1b
