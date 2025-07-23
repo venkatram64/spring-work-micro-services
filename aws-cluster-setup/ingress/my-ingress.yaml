@@ -11,13 +11,13 @@ spec:
   rules:
     - http:
         paths:
-#          - pathType: Prefix
-#            path: /()(.*)  # Root path
-#            backend:
-#              service:
-#                name: my-react-post-app-service
-#                port:
-#                  number: 80
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: my-react-post-app-service
+                port:
+                  number: 80
           - pathType: Prefix
             path: /api/posts/
             backend:

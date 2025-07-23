@@ -419,6 +419,9 @@ or delete all the pods
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl delete pod/aws-load-balancer-controller-5b596d6757-cmn5z -n kube-system --grace-period=0 --force
 
+deleting node group "my-dev-eks-cluster-ng"
+
+eksctl delete nodegroup --cluster my-dev-cluster --name my-dev-eks-cluster-ng --region ap-south-1
 
 
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl delete cluster --name=my-dev-eks-cluster --region=ap-south-1
@@ -441,6 +444,7 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> eksctl del
         delete IAM OIDC provider,
     }, delete cluster control plane "my-dev-eks-cluster" [async]
 }
+
 2025-07-13 16:21:15 [ℹ]  will delete stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
 2025-07-13 16:21:15 [ℹ]  waiting for stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng" to get deleted
 2025-07-13 16:21:15 [ℹ]  waiting for CloudFormation stack "eksctl-my-dev-eks-cluster-nodegroup-my-dev-eks-cluster-ng"
@@ -575,6 +579,13 @@ PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup> kubectl ge
 NAME             CLASS    HOSTS   ADDRESS                                                                   PORTS   AGE
 my-aws-ingress   <none>   *       k8s-kubesyst-myawsing-b2008b3270-663187801.ap-south-1.elb.amazonaws.com   80      12m
 PS D:\MyProjects\MyWork\spring-work-micro-services\aws-cluster-setup>
+
+for any issues
+
+kubectl get svc post-service content-service -n kube-system
+kubectl get endpoints post-service content-service  -n kube-system
+kubectl get deployment -n kube-system aws-load-balancer-controller
+kubectl describe ingress -n kube-system my-aws-ingress
 
 
 load balancer dns url
